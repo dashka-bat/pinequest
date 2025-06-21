@@ -8,4 +8,10 @@ export default defineConfig([
     },
   },
   tseslint.configs.recommended,
+  {
+    ignores: ['**/node_modules/**', '**/.next/**', '**/dist/**', '**/build/**', '**/public/**'],
+  },
+  {
+    files: ['**/*.{js,ts,jsx,tsx}'],
+  },
 ]);
