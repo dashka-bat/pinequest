@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode", // Prettier formatter
+    "bradlc.vscode-tailwindcss", // Tailwind CSS IntelliSense
+    "christian-kohler.path-intellisense", // Path Intellisense
+    "wix.vscode-import-cost", // Import Cost
+    "dbaeumer.vscode-eslint" // ✅ ESLint extension
+  ]
+}
