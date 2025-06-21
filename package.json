@@ -11,6 +11,8 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "mongodb": "^6.17.0",
+    "mongoose": "^8.16.0",
     "next": "15.3.4",
     "prettier": "^3.5.3",
     "react": "^19.0.0",
