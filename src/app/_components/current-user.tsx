@@ -25,7 +25,6 @@ const CurrentUser = () => {
     };
     fetchData();
   }, []);
-  console.log(user);
   return (
     <div>
       {loading ? (
