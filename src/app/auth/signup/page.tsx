@@ -67,7 +67,7 @@ const SignupPage = () => {
   }, [response]);
 
   return (
-    <div className="w-full max-w-md space-y-4">
+    <div className="w-full max-w-md space-y-4 flex flex-col justify-center">
       {response && <CustomSnackbar response={response} />}
 
       <div className="text-xl font-extrabold">Бүртгэл үүсгэх</div>
