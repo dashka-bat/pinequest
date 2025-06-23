@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="flex items-center  flex-1">
+      <div className="flex items-center justify-center xl:justify-start min-h-screen">
         <Half />
-        <div className="flex-1">{children}</div>
+        <div className="flex">{children}</div>
       </div>
     </div>
   );
