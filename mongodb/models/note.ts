@@ -3,7 +3,7 @@ import { User } from './user';
 
 const NoteSchema = new Schema(
   {
-    user: { type: Types.ObjectId, ref: 'user' },
+    user: { type: Types.ObjectId, ref: 'User' },
     company: { type: String, required: true },
     text: { type: String, required: true },
     positionX: { type: Number, required: true },
@@ -12,7 +12,7 @@ const NoteSchema = new Schema(
   { timestamps: true }
 );
 
-export const NoteModel = models.note || model('note', NoteSchema);
+export const NoteModel = models.note || model('Note', NoteSchema);
 
 export type Note = {
   user?: User;

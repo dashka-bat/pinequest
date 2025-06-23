@@ -5,21 +5,21 @@ const userSchema = new Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    occupation: { type: String, required: true },
     allowPersonalData: { type: Boolean, required: true },
     isAdmin: { type: Boolean, required: true, default: () => false },
+    role: { type: String, enum: ['Ажилтан', 'Админ'] },
   },
   { timestamps: true }
 );
 
-export const userModel = models.user || model('user', userSchema);
+export const userModel = models.User || model('User', userSchema);
 
 export type User = {
   _id: string;
   company: string;
   name: string;
   email: string;
-  occupation: string;
+  role: string;
   allowPersonalData: boolean;
   isAdmin: boolean;
 };

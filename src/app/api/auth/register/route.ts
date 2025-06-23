@@ -6,9 +6,9 @@ import bcrypt from 'bcrypt';
 
 export async function POST(req: NextRequest) {
   try {
-    const { company, name, email, password, occupation, allowPersonalData } = await req.json();
+    const { company, name, email, password, allowPersonalData, role } = await req.json();
     await connectToDatabase();
-    if (!name || !email || !password || !occupation || !allowPersonalData) {
+    if (!name || !email || !password || !allowPersonalData || !role) {
       return CustomResponse(false, 'REQUEST_FAILED', 'Мэдээлэл дутуу байна!', null);
     }
 
@@ -28,8 +28,8 @@ export async function POST(req: NextRequest) {
         name,
         email,
         password: hashedPass,
-        occupation,
         allowPersonalData,
+        role,
       });
       return CustomResponse(true, 'REQUEST_SUCCESS', 'Амжилттай бүртгэгдлээ!', { newUser });
     }
@@ -40,9 +40,9 @@ export async function POST(req: NextRequest) {
       name,
       email,
       password: hashedPass,
-      occupation,
       allowPersonalData,
       company: companyId,
+      role,
     });
     return CustomResponse(true, 'REQUEST_SUCCESS', 'Амжилттай бүртгэгдлээ!', { newUser });
   } catch (err) {
