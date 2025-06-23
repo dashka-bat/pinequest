@@ -36,13 +36,13 @@ const SignupPage = () => {
       email: '',
       password: '',
       confirmPassword: '',
-      occupation: undefined,
+      role: 'Ажилтан',
       allowPersonalData: undefined,
     },
   });
 
   const allow = form.watch('allowPersonalData');
-
+  const type = form.watch('role');
   const onSubmit = async (values: SignUpFormSchemaType) => {
     const trimmed = {
       ...values,
@@ -82,10 +82,10 @@ const SignupPage = () => {
               <FormItem>
                 <FormControl>
                   <Input
+                    disabled={type === 'Админ'}
                     {...field}
-                    placeholder="Компани регистр (заавал биш)"
-                    type="text"
-                    autoComplete="organization"
+                    placeholder={type === 'Админ' ? 'Шаардлагагүй!' : 'Компаны дугаар'}
+                    type="number"
                   />
                 </FormControl>
                 <FormMessage />
@@ -99,7 +99,11 @@ const SignupPage = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input {...field} placeholder="Нэр" autoComplete="name" />
+                  <Input
+                    {...field}
+                    placeholder={type === 'Админ' ? 'Компаны нэр' : 'Таны нэр'}
+                    autoComplete="name"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -157,7 +161,7 @@ const SignupPage = () => {
 
           <FormField
             control={form.control}
-            name="occupation"
+            name="role"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
@@ -166,15 +170,7 @@ const SignupPage = () => {
                       <SelectValue placeholder="Албан тушаал" />
                     </SelectTrigger>
                     <SelectContent className="cursor-pointer">
-                      {[
-                        'Захирал',
-                        'Менежер',
-                        'Нягтлан',
-                        'Хүний нөөц',
-                        'Программист',
-                        'Инженер',
-                        'Бусад',
-                      ].map((job) => (
+                      {['Админ', 'Ажилтан'].map((job) => (
                         <SelectItem key={job} value={job}>
                           {job}
                         </SelectItem>

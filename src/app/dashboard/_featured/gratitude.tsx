@@ -16,7 +16,6 @@ type Note = {
   y: number;
   text: string;
   username: string;
-  userOccupation: string;
 };
 
 const GratitudeBoard = () => {
@@ -26,7 +25,6 @@ const GratitudeBoard = () => {
   const stageRef = useRef<any>(null);
   const textRefs = useRef<Record<string, any>>({});
 
-  // Load notes
   useEffect(() => {
     const fetchNotes = async () => {
       try {
@@ -52,7 +50,6 @@ const GratitudeBoard = () => {
     fetchNotes();
   }, []);
 
-  // Add note
   const addNote = async () => {
     const x = 120 + Math.random() * 300;
     const y = 120 + Math.random() * 200;
@@ -70,7 +67,6 @@ const GratitudeBoard = () => {
             y: n.positionY,
             text: n.text,
             username: n.user.name,
-            userOccupation: n.user.occupation,
           },
         ]);
       }
@@ -79,7 +75,6 @@ const GratitudeBoard = () => {
     }
   };
 
-  // Text editing logic
   const handleDblClick = (note: Note) => {
     const textNode = textRefs.current[note.id];
     const stage = stageRef.current;
@@ -194,7 +189,7 @@ const GratitudeBoard = () => {
                     ellipsis
                   />
                   <Text
-                    text={`${note.username} (${note.userOccupation})`}
+                    text={`Бичсэн: ${note.username}`}
                     x={20}
                     y={STICKY_HEIGHT - 40}
                     fontSize={10}
