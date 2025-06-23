@@ -33,7 +33,7 @@ const SignupPage = () => {
       const res = await axios.post('/api/auth/login', trimmed);
       setResponse(res.data);
       if (res.data.success) {
-        router.push('/');
+        router.push('/dashboard');
       }
     } catch (err: any) {
       const message = err.response?.data?.message || 'Бүртгэл амжилтгүй боллоо';
@@ -51,8 +51,7 @@ const SignupPage = () => {
     <div className="w-full max-w-md space-y-4">
       {response && <CustomSnackbar response={response} />}
 
-      <div className="text-xl font-extrabold">Нэвтрэх үүсгэх</div>
-      <div className="text-[#888888] mb-4">Өөрийн хувийн мэдээлэл оруулах.</div>
+      <div className="text-xl font-extrabold">Нэвтрэх</div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
@@ -92,7 +91,7 @@ const SignupPage = () => {
             type="submit"
             className="w-full bg-[#00CDE2] hover:bg-[#00b8cc]"
           >
-            {form.formState.isSubmitting ? 'Түр хүлээнэ үү!' : 'Бүртгүүлэх'}
+            {form.formState.isSubmitting ? 'Түр хүлээнэ үү!' : 'Нэвтрэх'}
           </Button>
         </form>
       </Form>
