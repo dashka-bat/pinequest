@@ -12,7 +12,7 @@ import CustomSnackbar from '@/lib/Custom_Snackbar';
 import { SignInFormSchema, SignInFormSchemaType } from './utils/signin-schema';
 import { useRouter } from 'next/navigation';
 
-const SignupPage = () => {
+const SignInPage = () => {
   const [response, setResponse] = useState<ResponseType>();
   const router = useRouter();
   const form = useForm<SignInFormSchemaType>({
@@ -24,19 +24,13 @@ const SignupPage = () => {
   });
 
   const onSubmit = async (values: SignInFormSchemaType) => {
-    const trimmed = {
-      ...values,
-      email: values.email.trim(),
-    };
-
+    const trimmed = { ...values, email: values.email.trim() };
     try {
       const res = await axios.post('/api/auth/login', trimmed);
       setResponse(res.data);
-      if (res.data.success) {
-        router.push('/dashboard');
-      }
+      if (res.data.success) router.push('/dashboard');
     } catch (err: any) {
-      const message = err.response?.data?.message || 'Бүртгэл амжилтгүй боллоо';
+      const message = err.response?.data?.message || 'Нэвтрэх амжилтгүй боллоо';
       setResponse({ success: false, code: 'COULD_NOT_CONNECT_SERVER', message, data: null });
     }
   };
@@ -48,20 +42,25 @@ const SignupPage = () => {
   }, [response]);
 
   return (
-    <div className="w-full max-w-md space-y-4">
+    <div className="w-full max-w-md mx-auto flex flex-col items-center justify-center space-y-4">
       {response && <CustomSnackbar response={response} />}
-
-      <div className="text-xl font-extrabold">Нэвтрэх</div>
+      <div className="text-2xl font-bold">Нэвтрэх</div>
+      <div className="text-sm text-gray-500">Өөрийн хувийн мэдээлэл оруулах.</div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full">
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input {...field} placeholder="Имэйл" type="email" autoComplete="email" />
+                  <Input
+                    {...field}
+                    placeholder="Имэйл"
+                    type="email"
+                    className="w-full bg-[#EFF3F5]"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -78,7 +77,7 @@ const SignupPage = () => {
                     {...field}
                     placeholder="Нууц үг"
                     type="password"
-                    autoComplete="new-password"
+                    className="w-full bg-[#EFF3F5]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -89,7 +88,7 @@ const SignupPage = () => {
           <Button
             disabled={!form.formState.isValid || form.formState.isSubmitting}
             type="submit"
-            className="w-full bg-[#00CDE2] hover:bg-[#00b8cc]"
+            className="w-full bg-[#00CDE2] hover:bg-[#00b8cc] text-white"
           >
             {form.formState.isSubmitting ? 'Түр хүлээнэ үү!' : 'Нэвтрэх'}
           </Button>
@@ -99,4 +98,4 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default SignInPage;

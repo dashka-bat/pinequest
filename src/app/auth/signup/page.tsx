@@ -26,7 +26,7 @@ import { useEffect, useState } from 'react';
 import { ResponseType } from '@/lib/Responses';
 import CustomSnackbar from '@/lib/Custom_Snackbar';
 
-const SignupPage = () => {
+const SignUpPage = () => {
   const [response, setResponse] = useState<ResponseType>();
   const form = useForm<SignUpFormSchemaType>({
     resolver: zodResolver(SignUpFormSchema),
@@ -43,6 +43,7 @@ const SignupPage = () => {
 
   const allow = form.watch('allowPersonalData');
   const type = form.watch('role');
+
   const onSubmit = async (values: SignUpFormSchemaType) => {
     const trimmed = {
       ...values,
@@ -67,14 +68,37 @@ const SignupPage = () => {
   }, [response]);
 
   return (
-    <div className="w-full max-w-md space-y-4 flex flex-col justify-center">
+    <div className="w-full max-w-md mx-auto flex flex-col items-center justify-center space-y-4">
       {response && <CustomSnackbar response={response} />}
-
-      <div className="text-xl font-extrabold">Бүртгэл үүсгэх</div>
-      <div className="text-[#888888] mb-4">Өөрийн хувийн мэдээлэл оруулах.</div>
+      <div className="text-2xl font-bold">Бүртгэл үүсгэх</div>
+      <div className="text-sm text-gray-500">Өөрийн хувийн мэдээлэл оруулах.</div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full">
+          <FormField
+            control={form.control}
+            name="role"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <SelectTrigger className="w-full bg-[#EFF3F5]">
+                      <SelectValue placeholder="Нэвтрэх төрөл" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {['Админ', 'Ажилтан'].map((job) => (
+                        <SelectItem key={job} value={job}>
+                          {job}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <FormField
             control={form.control}
             name="company"
@@ -84,8 +108,9 @@ const SignupPage = () => {
                   <Input
                     disabled={type === 'Админ'}
                     {...field}
-                    placeholder={type === 'Админ' ? 'Шаардлагагүй!' : 'Компаны дугаар'}
-                    type="number"
+                    placeholder={type === 'Админ' ? 'Шаардлагагүй!' : 'Компаны регистр'}
+                    type="text"
+                    className="w-full bg-[#EFF3F5]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -101,8 +126,9 @@ const SignupPage = () => {
                 <FormControl>
                   <Input
                     {...field}
-                    placeholder={type === 'Админ' ? 'Компаны нэр' : 'Таны нэр'}
+                    placeholder={type === 'Админ' ? 'Компаны нэр' : 'Нэр'}
                     autoComplete="name"
+                    className="w-full bg-[#EFF3F5]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -116,7 +142,12 @@ const SignupPage = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input {...field} placeholder="Имэйл" type="email" autoComplete="email" />
+                  <Input
+                    {...field}
+                    placeholder="Имэйл"
+                    type="email"
+                    className="w-full bg-[#EFF3F5]"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -133,7 +164,7 @@ const SignupPage = () => {
                     {...field}
                     placeholder="Нууц үг"
                     type="password"
-                    autoComplete="new-password"
+                    className="w-full bg-[#EFF3F5]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -151,32 +182,8 @@ const SignupPage = () => {
                     {...field}
                     placeholder="Нууц үг ( дахин оруулах )"
                     type="password"
-                    autoComplete="new-password"
+                    className="w-full bg-[#EFF3F5]"
                   />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="role"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <SelectTrigger className="w-full cursor-pointer">
-                      <SelectValue placeholder="Албан тушаал" />
-                    </SelectTrigger>
-                    <SelectContent className="cursor-pointer">
-                      {['Админ', 'Ажилтан'].map((job) => (
-                        <SelectItem key={job} value={job}>
-                          {job}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -197,11 +204,11 @@ const SignupPage = () => {
                     defaultValue={String(field.value)}
                     className="flex gap-4"
                   >
-                    <div className="flex items-center space-x-2 cursor-pointer">
+                    <div className="flex items-center space-x-2">
                       <RadioGroupItem value="true" id="yes" />
                       <label htmlFor="yes">Тийм</label>
                     </div>
-                    <div className="flex items-center space-x-2 cursor-pointer">
+                    <div className="flex items-center space-x-2">
                       <RadioGroupItem value="false" id="no" />
                       <label htmlFor="no">Үгүй</label>
                     </div>
@@ -215,7 +222,7 @@ const SignupPage = () => {
           <Button
             disabled={!form.formState.isValid || form.formState.isSubmitting || !allow}
             type="submit"
-            className="w-full bg-[#00CDE2] hover:bg-[#00b8cc]"
+            className="w-full bg-[#00CDE2] hover:bg-[#00b8cc] text-white"
           >
             {form.formState.isSubmitting ? 'Түр хүлээнэ үү!' : 'Бүртгүүлэх'}
           </Button>
@@ -225,4 +232,4 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default SignUpPage;
