@@ -1,7 +1,7 @@
 import Dashboard from './_featured/dashboard';
 import GratitudeTab from './_featured/gratitude';
 import NewCard from './_featured/new-card';
-import UpcomingTab from './_featured/upcoming';
+import EventsTab from './_featured/events';
 
 type MainProps = {
   searchParams: Promise<{
@@ -16,8 +16,8 @@ const Main = async ({ searchParams }: MainProps) => {
     <NewCard />
   ) : tab === 'gratitude' ? (
     <GratitudeTab />
-  ) : tab === 'upcoming' ? (
-    <UpcomingTab />
+  ) : tab === 'events' ? (
+    <EventsTab />
   ) : (
     <Dashboard />
   );

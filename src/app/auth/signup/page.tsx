@@ -106,9 +106,8 @@ const SignUpPage = () => {
               <FormItem>
                 <FormControl>
                   <Input
-                    disabled={type === 'Админ'}
                     {...field}
-                    placeholder={type === 'Админ' ? 'Шаардлагагүй!' : 'Компаны регистр'}
+                    placeholder={'Компаны регистр'}
                     type="text"
                     className="w-full bg-[#EFF3F5] stroke-0 border-none h-[43px]"
                   />
