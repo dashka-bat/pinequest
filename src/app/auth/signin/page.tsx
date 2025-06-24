@@ -42,10 +42,10 @@ const SignInPage = () => {
   }, [response]);
 
   return (
-    <div className="w-full max-w-md mx-auto flex flex-col items-center justify-center space-y-4">
+    <div className="w-[340px] flex flex-col items-start justify-center space-y-3">
       {response && <CustomSnackbar response={response} />}
       <div className="text-2xl font-bold">Нэвтрэх</div>
-      <div className="text-sm text-gray-500">Өөрийн хувийн мэдээлэл оруулах.</div>
+      <div className="text-base text-gray-500">Өөрийн хувийн мэдээлэл оруулах.</div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full">
@@ -59,7 +59,7 @@ const SignInPage = () => {
                     {...field}
                     placeholder="Имэйл"
                     type="email"
-                    className="w-full bg-[#EFF3F5]"
+                    className="w-full bg-[#EFF3F5] stroke-0 border-none  h-[43px]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -77,7 +77,7 @@ const SignInPage = () => {
                     {...field}
                     placeholder="Нууц үг"
                     type="password"
-                    className="w-full bg-[#EFF3F5]"
+                    className="w-full bg-[#EFF3F5] stroke-0 border-none  h-[43px]"
                   />
                 </FormControl>
                 <FormMessage />
