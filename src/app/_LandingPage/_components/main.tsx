@@ -288,19 +288,19 @@ export default function Main() {
           <svg
             ref={pentagonRef}
             viewBox="0 0 100 100"
-            className="absolute w-[600px] h-[600px] -top-6 right-[1100px] fill-yellow-300 rotate-90"
+            className="absolute w-[600px] h-[600px] -top-6 drop-shadow-2xl right-[1400px] fill-yellow-300 rotate-90"
           >
             <polygon points="50,10 90,35 73,85 27,85 10,35" />
           </svg>
           
           <div 
             ref={triangleRef}
-            className="-top-10 -right-[50px] absolute w-0 h-0 border-l-[200px] border-l-transparent border-r-[200px] border-r-transparent border-b-[400px] rotate-75 border-b-red-500" 
+            className="-top-10 -right-[50px] absolute w-0 h-0 drop-shadow-2xl border-l-[200px] border-l-transparent border-r-[200px] border-r-transparent border-b-[400px] rotate-75 border-b-red-500" 
           />
           
           <div 
             ref={starRef}
-            className="absolute right-[1000px] top-[500px] w-[600px] h-[600px] rotate-45 flex justify-center items-center"
+            className="absolute right-[1400px] top-[500px] w-[600px] h-[600px] rotate-45 flex justify-center drop-shadow-2xl items-center"
           >
             <svg viewBox="0 0 24 24" className="w-[600px] h-[600px] fill-pink-400">
               <path d="M12 2l2.9 6.9L22 9.8l-5 5.2 1.2 7L12 18.3 5.8 22 7 15l-5-5.2 7.1-1L12 2z" />
@@ -309,7 +309,7 @@ export default function Main() {
           
           <div 
             ref={circleRef}
-            className="absolute top-[400px] left-[1200px] w-[500px] h-[500px] bg-green-500 rounded-full" 
+            className="absolute top-[450px] left-[1400px] drop-shadow-2xl w-[500px] h-[500px] bg-green-500 rounded-full" 
           />
           
           <div ref={heroContentRef} className="flex flex-col items-center text-center space-y-6">
