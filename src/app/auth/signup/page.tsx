@@ -68,10 +68,10 @@ const SignUpPage = () => {
   }, [response]);
 
   return (
-    <div className="w-full max-w-md mx-auto flex flex-col items-center justify-center space-y-4">
+    <div className="w-[340px] mx-auto flex flex-col items-start justify-center space-y-3">
       {response && <CustomSnackbar response={response} />}
       <div className="text-2xl font-bold">Бүртгэл үүсгэх</div>
-      <div className="text-sm text-gray-500">Өөрийн хувийн мэдээлэл оруулах.</div>
+      <div className="text-base text-gray-500">Өөрийн хувийн мэдээлэл оруулах.</div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full">
@@ -82,7 +82,7 @@ const SignUpPage = () => {
               <FormItem>
                 <FormControl>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <SelectTrigger className="w-full bg-[#EFF3F5]">
+                    <SelectTrigger className="w-full bg-[#EFF3F5] stroke-0 border-none h-[43px]">
                       <SelectValue placeholder="Нэвтрэх төрөл" />
                     </SelectTrigger>
                     <SelectContent>
@@ -110,7 +110,7 @@ const SignUpPage = () => {
                     {...field}
                     placeholder={type === 'Админ' ? 'Шаардлагагүй!' : 'Компаны регистр'}
                     type="text"
-                    className="w-full bg-[#EFF3F5]"
+                    className="w-full bg-[#EFF3F5] stroke-0 border-none h-[43px]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -128,7 +128,7 @@ const SignUpPage = () => {
                     {...field}
                     placeholder={type === 'Админ' ? 'Компаны нэр' : 'Нэр'}
                     autoComplete="name"
-                    className="w-full bg-[#EFF3F5]"
+                    className="w-full bg-[#EFF3F5] stroke-0 border-none h-[43px]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -146,7 +146,7 @@ const SignUpPage = () => {
                     {...field}
                     placeholder="Имэйл"
                     type="email"
-                    className="w-full bg-[#EFF3F5]"
+                    className="w-full bg-[#EFF3F5] stroke-0 border-none h-[43px]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -164,7 +164,7 @@ const SignUpPage = () => {
                     {...field}
                     placeholder="Нууц үг"
                     type="password"
-                    className="w-full bg-[#EFF3F5]"
+                    className="w-full bg-[#EFF3F5] stroke-0 border-none h-[43px]"
                   />
                 </FormControl>
                 <FormMessage />
@@ -182,7 +182,7 @@ const SignUpPage = () => {
                     {...field}
                     placeholder="Нууц үг ( дахин оруулах )"
                     type="password"
-                    className="w-full bg-[#EFF3F5]"
+                    className="w-full bg-[#EFF3F5] stroke-0 border-none"
                   />
                 </FormControl>
                 <FormMessage />
