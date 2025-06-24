@@ -207,19 +207,21 @@ export default function Main() {
         trigger: sectionRef.current,
         start: "top 70%",
         onEnter: () => {
-          gsap.fromTo(sectionRef.current.children,
-            {
-              y: 60,
-              opacity: 0
-            },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 0.8,
-              stagger: 0.2,
-              ease: "power2.out"
-            }
-          );
+          if (sectionRef.current) {
+            gsap.fromTo(sectionRef.current.children,
+              {
+                y: 60,
+                opacity: 0
+              },
+              {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: "power2.out"
+              }
+            );
+          }
         }
       });
 
@@ -227,35 +229,39 @@ export default function Main() {
         trigger: footerRef.current,
         start: "top 80%",
         onEnter: () => {
-          gsap.fromTo(footerRef.current.querySelector('h1'),
-            {
-              y: 40,
-              opacity: 0
-            },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 0.8,
-              ease: "power2.out"
-            }
-          );
+          if (footerRef.current) {
+            gsap.fromTo(footerRef.current.querySelector('h1'),
+              {
+                y: 40,
+                opacity: 0
+              },
+              {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                ease: "power2.out"
+              }
+            );
+          }
           
-          gsap.fromTo(footerRef.current.querySelectorAll('.person-card'),
-            {
-              y: 60,
-              opacity: 0,
-              scale: 0.9
-            },
-            {
-              y: 0,
-              opacity: 1,
-              scale: 1,
-              duration: 0.8,
-              stagger: 0.15,
-              delay: 0.3,
-              ease: "power2.out"
-            }
-          );
+          if (footerRef.current) {
+            gsap.fromTo(footerRef.current.querySelectorAll('.person-card'),
+              {
+                y: 60,
+                opacity: 0,
+                scale: 0.9
+              },
+              {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 0.8,
+                stagger: 0.15,
+                delay: 0.3,
+                ease: "power2.out"
+              }
+            );
+          }
         }
       });
 
@@ -369,7 +375,7 @@ export default function Main() {
           </div>
         </div>
         
-        <section ref={sectionRef} className="flex items-center justify-around gap-10 px-10 py-10  mt-[450px] mb-[300px] ">
+        <section ref={sectionRef} className="flex items-center justify-around gap-10 px-10 py-10  mt-[700px] mb-[300px] ">
           <div className="w-[660px]">
             <h1 className="font-semibold text-[64px] leading-[72px]">Таны хүссэн загвар</h1>
             <p className="mt-4 text-2xl">
