@@ -1,4 +1,5 @@
 import BirthdayCard from '../_components/birthday-card';
+import BirthdayCard2 from '../_components/birthday-card2';
 import MiniEventCard from '../_components/mini-event-card';
 
 const Dashboard = () => {
@@ -11,7 +12,7 @@ const Dashboard = () => {
             <BirthdayCard />
           </section>
           <section>
-            <BirthdayCard />
+            <BirthdayCard2 />
           </section>
         </div>
       </div>
