@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 type MiniEventCardProps = {
   title: string;
   caption: string;
@@ -18,7 +16,7 @@ const MiniEventCard = ({ title, caption, date, imageUrl }: MiniEventCardProps) =
       <p className="mt-4 text-base text-[#1D2745] whitespace-pre-line">{caption}</p>
 
       <div className="mt-6">
-        <Image
+        <img
           src={imageUrl}
           alt="Event illustration"
           width={300}
