@@ -1,6 +1,7 @@
 import { EventModel } from '../../../../../../mongodb/models/event';
 import nodemailer from 'nodemailer';
 import { NextResponse } from 'next/server';
+import { connectToDatabase } from '@/app/utils/mongoose';
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.zoho.com',
@@ -13,6 +14,8 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function GET() {
+  await connectToDatabase();
+
   const today = new Date();
 
   const start = new Date(today.setHours(0, 0, 0, 0));
