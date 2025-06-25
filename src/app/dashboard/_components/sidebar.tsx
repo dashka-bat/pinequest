@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { Home, HelpCircle, StickyNote, MessageSquare, LogOut } from 'lucide-react';
+import { Home, HelpCircle, StickyNote, LogOut, PartyPopper } from 'lucide-react';
 import clsx from 'clsx';
 
 const menu = [
   { label: 'Нүүр', href: '/dashboard', tab: null, icon: Home },
+  { label: 'Тэмдэглэлт өдрүүд', href: '/dashboard?tab=events', tab: 'events', icon: PartyPopper },
   { label: 'Шинэ карт', href: '/dashboard?tab=new-card', tab: 'new-card', icon: HelpCircle },
   {
     label: 'Талархны самбар',
@@ -14,7 +15,6 @@ const menu = [
     tab: 'gratitude',
     icon: StickyNote,
   },
-  { label: 'Upcoming', href: '/dashboard?tab=upcoming', tab: 'upcoming', icon: MessageSquare },
 ];
 
 const DashboardSidebar = () => {
