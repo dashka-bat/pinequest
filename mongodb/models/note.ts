@@ -12,7 +12,7 @@ const NoteSchema = new Schema(
   { timestamps: true }
 );
 
-export const NoteModel = models.note || model('Note', NoteSchema);
+export const NoteModel = models.Note || model('Note', NoteSchema);
 
 export type Note = {
   user?: User;
