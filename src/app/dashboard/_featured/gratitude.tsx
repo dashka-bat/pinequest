@@ -16,12 +16,14 @@ type Note = {
   y: number;
   text: string;
   username: string;
+  color?: string;
 };
 
 const GratitudeBoard = () => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState('#B9FBC0');
   const stageRef = useRef<any>(null);
   const textRefs = useRef<Record<string, any>>({});
 
@@ -29,6 +31,7 @@ const GratitudeBoard = () => {
     const fetchNotes = async () => {
       try {
         const res = await axios.get('/api/gratitude-panel');
+        console.log('Fetched notes:', res);
         if (res.data.success) {
           const loadedNotes = res.data.data.notes.map((note: any) => ({
             id: note._id,
@@ -36,7 +39,7 @@ const GratitudeBoard = () => {
             y: note.positionY,
             text: note.text,
             username: note.user.name,
-            userOccupation: note.user.occupation,
+            color: note.color || '#B9FBC0',
           }));
           setNotes(loadedNotes);
         }
@@ -54,9 +57,10 @@ const GratitudeBoard = () => {
     const x = 120 + Math.random() * 300;
     const y = 120 + Math.random() * 200;
     const text = 'Type anything, @mention\nanyone';
+    const color = selectedColor;
 
     try {
-      const res = await axios.post('/api/gratitude-panel', { x, y, text });
+      const res = await axios.post('/api/gratitude-panel', { x, y, text, color });
       if (res.data.success) {
         const n = res.data.data.newNote;
         setNotes((prev) => [
@@ -67,6 +71,7 @@ const GratitudeBoard = () => {
             y: n.positionY,
             text: n.text,
             username: n.user.name,
+            color: n.color || color,
           },
         ]);
       }
@@ -131,7 +136,6 @@ const GratitudeBoard = () => {
     });
   };
 
-  // Update note position
   const handleDragEnd = (note: Note, x: number, y: number) => {
     setNotes((prev) => prev.map((n) => (n.id === note.id ? { ...n, x, y } : n)));
 
@@ -144,9 +148,54 @@ const GratitudeBoard = () => {
     <div className="w-full h-screen bg-[#EEF7FB] flex flex-col items-center justify-center gap-6 p-8">
       <div
         className="bg-white rounded-3xl shadow-lg border border-gray-200 p-6 flex flex-col items-center gap-4"
-        style={{ width: STAGE_WIDTH + 120, height: STAGE_HEIGHT + 180 }}
+        style={{ width: STAGE_WIDTH + 120, height: STAGE_HEIGHT + 220 }}
       >
         <h2 className="text-xl font-semibold">Нэгэндээ урам өгөөрэй</h2>
+
+        <div className="flex flex-col gap-2 items-center">
+          <div className="flex gap-2 flex-wrap justify-center">
+            {[
+              '#B9FBC0',
+              '#A0C4FF',
+              '#FFD6A5',
+              '#FFADAD',
+              '#D0F4DE',
+              '#E4C1F9',
+              '#FBE7C6',
+              '#CDE7B0',
+              '#B5EAEA',
+              '#FFDAC1',
+              '#C9BBCF',
+              '#F1F0C0',
+            ].map((color) => (
+              <button
+                key={color}
+                onClick={() => setSelectedColor(color)}
+                style={{
+                  backgroundColor: color,
+                  width: 30,
+                  height: 30,
+                  borderRadius: '50%',
+                  border: selectedColor === color ? '2px solid #333' : '1px solid #ccc',
+                }}
+                title={`Choose ${color}`}
+              />
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2 mt-1">
+            <span className="text-sm text-gray-600">Сонгосон өнгө:</span>
+            <div
+              style={{
+                backgroundColor: selectedColor,
+                width: 30,
+                height: 30,
+                borderRadius: 6,
+                border: '1px solid #888',
+              }}
+            />
+          </div>
+        </div>
 
         <Stage
           width={STAGE_WIDTH}
@@ -167,7 +216,7 @@ const GratitudeBoard = () => {
                   <Rect
                     width={STICKY_WIDTH}
                     height={STICKY_HEIGHT}
-                    fill="#B9FBC0"
+                    fill={note.color || '#B9FBC0'}
                     cornerRadius={10}
                   />
                   <Text
