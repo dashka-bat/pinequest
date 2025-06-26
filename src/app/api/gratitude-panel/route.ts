@@ -41,11 +41,12 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     connectToDatabase();
-    const { x, y, text } = await req.json();
+    const { x, y, text, color } = await req.json();
+
     if (!process.env.accessToken || !process.env.refreshToken) {
       return NextResponse_NoEnv();
     }
-    if (!x || !y || !text) {
+    if (!x || !y || !text || !color) {
       return CustomResponse(false, 'LACK_OF_INFO', 'Мэдээлэл дутуу байна!', null);
     }
     const accessToken = req.cookies.get('accessToken')?.value;
@@ -53,6 +54,7 @@ export async function POST(req: NextRequest) {
       return NextResponse_NoToken();
     }
     const verify = jwt.verify(accessToken, process.env.accessToken) as jwt.JwtPayload;
+    console.log('JWT Verify Result:', verify);
     const user = await userModel.findById(verify.id);
     if (!user) {
       return NextResponse.json({
@@ -67,9 +69,11 @@ export async function POST(req: NextRequest) {
       positionX: x,
       positionY: y,
       text,
+      color: color,
       user: verify.id,
       company: user.company,
     });
+    console.log('New Note Created:', newNote);
 
     const populated = await NoteModel.findById(newNote._id).populate('user');
     return CustomResponse(true, 'REQUEST_SUCCESS', 'Амжилттай нэмэгдлээ!', { newNote: populated });
