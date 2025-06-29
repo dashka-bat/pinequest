@@ -89,10 +89,9 @@ const GratitudeBoard = () => {
             id: n._id,
             x: n.positionX,
             y: n.positionY,
-            text: n.text || initialText, // Хэрвээ сервер хоосон ирвэл анхны утга оруулах
+            text: n.text || initialText, 
             username: n.user.name,
             color: n.color || color,
-            stamp: null,
           },
         ]);
       }
@@ -214,10 +213,10 @@ const GratitudeBoard = () => {
   };
 
   return (
-    <div className="w-full h-[1000px] bg-[#EEF7FB] flex flex-col items-center justify-center p-8 relative">
+    <div className="w-full h-[1000px] border-8 border-blue-300 bg-[#EEF7FB] flex flex-col items-center justify-center p-8 relative">
       <AnimatePresence>
         {flyingStamps
-          .slice(-1000) // Сүүлийн 1000 шиврээ эмоджи-г л харуулна
+          .slice(-1000) 
           .map(({ id, stamp, startX, startY, endX, endY, delay }) => (
             <motion.div
               key={id}
@@ -310,7 +309,7 @@ const GratitudeBoard = () => {
           </Layer>
         </Stage>
 
-        <div className="w-[200px] h-[100px] flex gap-3 justify-center ml-[1600px] bg-[#EEF7FB] items-center">
+        <div className="w-[280px] h-[150px] flex gap-3 justify-center ml-[1600px] bg-[#EEF7FB] absolute bottom-8  items-center rounded-tl-2xl">
           <Button className="w-[80px] h-[80px] bg-white" onClick={() => setShowColorPicker(true)}>
             <img
               width={60}
@@ -375,7 +374,7 @@ const GratitudeBoard = () => {
 
       {showStampPicker && (
         <div className="absolute top-[650px] right-[40px] bg-white p-4 rounded shadow-lg flex gap-3 z-50">
-          {['✔️', '🔥', '⭐', '🚀', '❤️', '🎉'].map((stamp) => (
+          {['✔️', '🔥', '⭐', '😭', '❤️', '🎉'].map((stamp) => (
             <button
               key={stamp}
               onClick={() => {
