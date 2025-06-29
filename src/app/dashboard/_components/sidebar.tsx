@@ -2,13 +2,15 @@
 
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { Home, HelpCircle, StickyNote, LogOut, PartyPopper } from 'lucide-react';
+import { Home, HelpCircle, StickyNote, LogOut, PartyPopper,Pencil } from 'lucide-react';
 import clsx from 'clsx';
+import { logout } from './logout';
 
 const menu = [
   { label: 'Нүүр', href: '/dashboard', tab: null, icon: Home },
+  
+  { label: 'Талархал бичих', href: '/dashboard?tab=new-card', tab: 'new-card', icon: Pencil },
   { label: 'Тэмдэглэлт өдрүүд', href: '/dashboard?tab=events', tab: 'events', icon: PartyPopper },
-  { label: 'Шинэ карт', href: '/dashboard?tab=new-card', tab: 'new-card', icon: HelpCircle },
   {
     label: 'Талархны самбар',
     href: '/dashboard?tab=gratitude',
@@ -47,11 +49,11 @@ const DashboardSidebar = () => {
 
           <div className="mt-auto pt-6 border-t">
             <Link
-              href="/logout"
+              href="/"
               className="flex items-center gap-3 text-red-500 hover:text-red-600 transition-all"
             >
               <LogOut size={20} />
-              Гарах
+              <button onClick={logout}>Гарах</button>
             </Link>
           </div>
         </nav>
