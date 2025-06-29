@@ -4,10 +4,11 @@ import { Stage, Layer, Rect, Text, Group } from 'react-konva';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
+import { FaStamp } from "react-icons/fa";
 
-const STICKY_WIDTH = 300;
-const STICKY_HEIGHT = 300;
-const STAGE_WIDTH = 1000;
+const STICKY_WIDTH = 200;
+const STICKY_HEIGHT = 200;
+const STAGE_WIDTH = 1760;
 const STAGE_HEIGHT = 720;
 
 type Note = {
@@ -17,6 +18,7 @@ type Note = {
   text: string;
   username: string;
   color?: string;
+  stamp?: string; // Тамга нэмэгдсэн талбар
 };
 
 const GratitudeBoard = () => {
@@ -24,6 +26,12 @@ const GratitudeBoard = () => {
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState('#B9FBC0');
+  const [showColorPicker, setShowColorPicker] = useState(false);
+
+  // Шинэ нэмэгдсэн state-үүд:
+  const [showStampPicker, setShowStampPicker] = useState(false);
+  const [selectedStamp, setSelectedStamp] = useState<string | null>(null);
+
   const stageRef = useRef<any>(null);
   const textRefs = useRef<Record<string, any>>({});
 
@@ -31,7 +39,6 @@ const GratitudeBoard = () => {
     const fetchNotes = async () => {
       try {
         const res = await axios.get('/api/gratitude-panel');
-        console.log('Fetched notes:', res);
         if (res.data.success) {
           const loadedNotes = res.data.data.notes.map((note: any) => ({
             id: note._id,
@@ -40,6 +47,7 @@ const GratitudeBoard = () => {
             text: note.text,
             username: note.user.name,
             color: note.color || '#B9FBC0',
+            stamp: note.stamp || null, // API-аас авсан байж магадгүй
           }));
           setNotes(loadedNotes);
         }
@@ -53,11 +61,11 @@ const GratitudeBoard = () => {
     fetchNotes();
   }, []);
 
-  const addNote = async () => {
+  const addNoteWithColor = async (color: string) => {
     const x = 120 + Math.random() * 300;
     const y = 120 + Math.random() * 200;
     const text = 'Type anything, @mention\nanyone';
-    const color = selectedColor;
+  
 
     try {
       const res = await axios.post('/api/gratitude-panel', { x, y, text, color });
@@ -72,6 +80,7 @@ const GratitudeBoard = () => {
             text: n.text,
             username: n.user.name,
             color: n.color || color,
+            stamp: null,
           },
         ]);
       }
@@ -144,58 +153,29 @@ const GratitudeBoard = () => {
       .catch((err) => console.error('Failed to move note:', err));
   };
 
+  // Шинээр нэмсэн: note дээр дарж тамга нэмэх функц
+  const handleAddStampToNote = (noteId: string) => {
+    if (!selectedStamp) return;
+
+    setNotes((prev) =>
+      prev.map((note) =>
+        note.id === noteId ? { ...note, stamp: selectedStamp } : note
+      )
+    );
+
+    // API-д хадгалах хэсэг
+    axios
+      .patch(`/api/gratitude-panel?id=${noteId}`, { stamp: selectedStamp })
+      .catch((err) => console.error('Failed to add stamp:', err));
+  };
+
   return (
-    <div className="w-full h-screen bg-[#EEF7FB] flex flex-col items-center justify-center gap-6 p-8">
+    <div className="w-full h-[1000px] bg-[#EEF7FB] flex flex-col items-center justify-center p-8">
       <div
         className="bg-white rounded-3xl shadow-lg border border-gray-200 p-6 flex flex-col items-center gap-4"
         style={{ width: STAGE_WIDTH + 120, height: STAGE_HEIGHT + 220 }}
       >
         <h2 className="text-xl font-semibold">Нэгэндээ урам өгөөрэй</h2>
-
-        <div className="flex flex-col gap-2 items-center">
-          <div className="flex gap-2 flex-wrap justify-center">
-            {[
-              '#B9FBC0',
-              '#A0C4FF',
-              '#FFD6A5',
-              '#FFADAD',
-              '#D0F4DE',
-              '#E4C1F9',
-              '#FBE7C6',
-              '#CDE7B0',
-              '#B5EAEA',
-              '#FFDAC1',
-              '#C9BBCF',
-              '#F1F0C0',
-            ].map((color) => (
-              <button
-                key={color}
-                onClick={() => setSelectedColor(color)}
-                style={{
-                  backgroundColor: color,
-                  width: 30,
-                  height: 30,
-                  borderRadius: '50%',
-                  border: selectedColor === color ? '2px solid #333' : '1px solid #ccc',
-                }}
-                title={`Choose ${color}`}
-              />
-            ))}
-          </div>
-
-          <div className="flex items-center gap-2 mt-1">
-            <span className="text-sm text-gray-600">Сонгосон өнгө:</span>
-            <div
-              style={{
-                backgroundColor: selectedColor,
-                width: 30,
-                height: 30,
-                borderRadius: 6,
-                border: '1px solid #888',
-              }}
-            />
-          </div>
-        </div>
 
         <Stage
           width={STAGE_WIDTH}
@@ -212,6 +192,7 @@ const GratitudeBoard = () => {
                   y={note.y}
                   draggable
                   onDragEnd={(e) => handleDragEnd(note, e.target.x(), e.target.y())}
+                  onClick={() => handleAddStampToNote(note.id)} // note дээр дарж тамга нэмнэ
                 >
                   <Rect
                     width={STICKY_WIDTH}
@@ -228,7 +209,7 @@ const GratitudeBoard = () => {
                     y={20}
                     width={STICKY_WIDTH - 40}
                     height={STICKY_HEIGHT - 80}
-                    fontSize={12}
+                    fontSize={15}
                     fontFamily="Arial"
                     fill="#6B7280"
                     onDblClick={() => handleDblClick(note)}
@@ -241,19 +222,120 @@ const GratitudeBoard = () => {
                     text={`Бичсэн: ${note.username}`}
                     x={20}
                     y={STICKY_HEIGHT - 40}
-                    fontSize={10}
+                    fontSize={13}
                     fontFamily="Arial"
                     fill="#374151"
                     width={STICKY_WIDTH - 40}
                     wrap="word"
                   />
+
+                  {/* Тамга-г note дээр харуулах */}
+                  {note.stamp && (
+                    <Text
+                      text={note.stamp}
+                      x={STICKY_WIDTH - 40}
+                      y={10}
+                      fontSize={24}
+                      fontFamily="Arial"
+                      fill="#000"
+                    />
+                  )}
                 </Group>
               ))}
           </Layer>
         </Stage>
+
+        {/* Өнгө сонгох товчлуур */}
+        <div className="w-[200px] h-[100px] flex gap-3 justify-center ml-[1600px] bg-[#EEF7FB] items-center">
+          <Button
+            className="w-[80px] h-[80px] bg-white"
+            onClick={() => setShowColorPicker(true)}
+          >
+            <img
+              width={60}
+              height={60}
+              alt="note"
+              src="https://res.cloudinary.com/dxkgrtted/image/upload/v1751173566/Stickernote_bsguwj.png"
+            />
+          </Button>
+
+          {/* Тамга товчлуур */}
+          <Button
+            className="w-[80px] h-[80px] bg-white"
+            onClick={() => setShowStampPicker((prev) => !prev)}
+          >
+            <FaStamp className="text-black" width={50} height={50} />
+          </Button>
+        </div>
       </div>
 
-      <Button onClick={addNote}>➕ Шинэ стикер</Button>
+      {/* Өнгө сонгох хэсэг */}
+      {showColorPicker && (
+        <div className="flex flex-col items-center gap-4 bg-white border p-4 rounded-xl shadow-md mt-4">
+          <div className="flex gap-2 flex-wrap justify-center">
+            {[
+              '#B9FBC0', '#A0C4FF', '#FFD6A5', '#FFADAD',
+              '#D0F4DE', '#E4C1F9', '#FBE7C6', '#CDE7B0',
+              '#B5EAEA', '#FFDAC1', '#C9BBCF', '#F1F0C0',
+            ].map((color) => (
+              <button
+                key={color}
+                onClick={async () => {
+                  setSelectedColor(color);
+                  setShowColorPicker(false);
+                  await addNoteWithColor(color);
+                }}
+                style={{
+                  backgroundColor: color,
+                  width: 40,
+                  height: 40,
+                  borderRadius: '50%',
+                  border: '2px solid #444',
+                }}
+                title={`Өнгө: ${color}`}
+              />
+            ))}
+          </div>
+          <div className="flex items-center gap-3 mt-2">
+            <input
+              type="color"
+              value={selectedColor}
+              onChange={(e) => setSelectedColor(e.target.value)}
+              className="w-10 h-10 cursor-pointer"
+              title="Өөрийн өнгө сонгох"
+            />
+            <span className="text-sm text-gray-600">{selectedColor}</span>
+            <Button
+              onClick={async () => {
+                setShowColorPicker(false);
+                await addNoteWithColor(selectedColor);
+              }}
+              className="text-sm"
+            >
+              Нэмэх
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Тамга сонгох popup */}
+      {showStampPicker && (
+        <div className="absolute top-[650px] right-[40px] bg-white p-4 rounded shadow-lg flex gap-3 z-50">
+          {['✔️', '🔥', '⭐', '🚀', '💡', '🎉'].map((stamp) => (
+            <button
+              key={stamp}
+              onClick={() => {
+                setSelectedStamp(stamp);
+                setShowStampPicker(false);
+              }}
+              className="text-3xl"
+              title={`Tamga: ${stamp}`}
+            >
+              {stamp}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
