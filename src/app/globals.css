@@ -120,3 +120,18 @@
     @apply bg-background text-foreground;
   }
 }
+
+.swiper-slide {
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.swiper-slide-prev,
+.swiper-slide-next {
+  transform: scale(0.8);
+  opacity: 0.5;
+}
+
+.swiper-slide-active {
+  transform: scale(1);
+  opacity: 1;
+}

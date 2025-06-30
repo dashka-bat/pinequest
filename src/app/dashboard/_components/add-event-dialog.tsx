@@ -77,7 +77,7 @@ const AddEventCard = ({ setRefresh }: { setRefresh: Dispatch<SetStateAction<bool
       setResponse(undefined);
     }, 5000);
 
-    return clearTimeout(timeout);
+    return () => clearTimeout(timeout);
   }, [response]);
 
   return (
@@ -139,9 +139,10 @@ const AddEventCard = ({ setRefresh }: { setRefresh: Dispatch<SetStateAction<bool
                       <FormItem className="flex-1">
                         <Label>Утасны дугаар</Label>
                         <FormControl>
+                          {/* type="text" болгосон */}
                           <Input
                             placeholder="Дугаар"
-                            type="number"
+                            type="text"
                             {...field}
                             className="w-full bg-background"
                           />
@@ -163,7 +164,16 @@ const AddEventCard = ({ setRefresh }: { setRefresh: Dispatch<SetStateAction<bool
                             </SelectTrigger>
                             <SelectContent className="w-full">
                               <SelectItem value="birthday">Төрсөн өдөр</SelectItem>
-                              <SelectItem value="anniversary">Компаны ой</SelectItem>
+                              <SelectItem value="anniversary_company">Компаны ой</SelectItem>
+                              <SelectItem value="handover_day">
+                                Ажлаа хүлээлгэж өгөх өдөр
+                              </SelectItem>
+                              <SelectItem value="anniversary_1">1 жилийн ой</SelectItem>
+                              <SelectItem value="anniversary_5">5 жилийн ой</SelectItem>
+                              <SelectItem value="anniversary_10">10 жилийн ой</SelectItem>
+                              <SelectItem value="anniversary_20">20 жилийн ой</SelectItem>
+                              <SelectItem value="anniversary_30">30 жилийн ой</SelectItem>
+                              <SelectItem value="anniversary_40">40 жилийн ой</SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
@@ -195,7 +205,6 @@ const AddEventCard = ({ setRefresh }: { setRefresh: Dispatch<SetStateAction<bool
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
-                            disabled={(date) => date > new Date()}
                             mode="single"
                             selected={field.value ? new Date(field.value) : undefined}
                             onSelect={(date) => {

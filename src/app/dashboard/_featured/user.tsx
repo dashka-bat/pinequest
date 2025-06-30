@@ -6,9 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 
 
-// 1. Cookie-с токеныг авна (жишээ нь document.cookie ашиглан)
-
-
 type User = {
     _id: string;
     name: string;
