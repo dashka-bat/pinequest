@@ -33,20 +33,20 @@ export default function Users() {
     fetchUsers();
   }, []);
 
-  const handleDelete = async (userId: string) => {
-    try {
-      const res = await fetch(`/api/company/user/${userId}`, {
-        method: "DELETE",
-      });
+  // const handleDelete = async (userId: string) => {
+  //   try {
+  //     const res = await fetch(`/api/company/user/${userId}`, {
+  //       method: "DELETE",
+  //     });
 
-      if (!res.ok) {
-        throw new Error("Устгах үед алдаа гарлаа");
-      }
-      setUsers((prev) => prev.filter((user) => user._id !== userId));
-    } catch (err) {
-      console.error("Устгах үед алдаа:", err);
-    }
-  };
+  //     if (!res.ok) {
+  //       throw new Error("Устгах үед алдаа гарлаа");
+  //     }
+  //     setUsers((prev) => prev.filter((user) => user._id !== userId));
+  //   } catch (err) {
+  //     console.error("Устгах үед алдаа:", err);
+  //   }
+  // };
 
   if (loading) return <p>Уншиж байна...</p>;
 
@@ -96,7 +96,7 @@ export default function Users() {
 
       <button
         className="w-[14px] h-[14px] justify-self-end"
-        onClick={() => handleDelete(user._id)}
+        // onClick={() => handleDelete(user._id)}
       >
         <Trash2 size={14} />
       </button>
