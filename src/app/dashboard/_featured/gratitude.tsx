@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { FaStamp } from 'react-icons/fa';
-
 import { motion, AnimatePresence } from 'framer-motion';
 
 const STICKY_WIDTH = 200;
@@ -47,7 +46,7 @@ const GratitudeBoard = () => {
   const stageRef = useRef<any>(null);
   const textRefs = useRef<Record<string, any>>({});
 
-  const initialText = 'Type anything, @mention\nanyone'; // Анхны утга энд
+  const initialText = 'Type anything, @mention\nanyone';
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -58,7 +57,7 @@ const GratitudeBoard = () => {
             id: note._id,
             x: note.positionX,
             y: note.positionY,
-            text: note.text || initialText, // Хэрвээ хоосон байвал анхны утга
+            text: note.text || initialText,
             username: note.user.name,
             color: note.color || '#B9FBC0',
             stamp: note.stamp || null,
@@ -89,7 +88,7 @@ const GratitudeBoard = () => {
             id: n._id,
             x: n.positionX,
             y: n.positionY,
-            text: n.text || initialText, 
+            text: n.text || initialText,
             username: n.user.name,
             color: n.color || color,
           },
@@ -138,9 +137,7 @@ const GratitudeBoard = () => {
       const updatedText = textarea.value;
       setEditingId(null);
       document.body.removeChild(textarea);
-      setNotes((prev) =>
-        prev.map((n) => (n.id === note.id ? { ...n, text: updatedText } : n))
-      );
+      setNotes((prev) => prev.map((n) => (n.id === note.id ? { ...n, text: updatedText } : n)));
 
       try {
         await axios.put(`/api/gratitude-panel?id=${note.id}`, { text: updatedText });
@@ -171,11 +168,7 @@ const GratitudeBoard = () => {
     const note = notes.find((n) => n.id === noteId);
     if (!note) return;
 
-    setNotes((prev) =>
-      prev.map((n) =>
-        n.id === noteId ? { ...n, stamp: selectedStamp } : n
-      )
-    );
+    setNotes((prev) => prev.map((n) => (n.id === noteId ? { ...n, stamp: selectedStamp } : n)));
 
     const containerRect = stageRef.current.container().getBoundingClientRect();
 
@@ -202,9 +195,7 @@ const GratitudeBoard = () => {
     setFlyingStamps((prev) => [...prev, ...newFlyingStamps]);
 
     setTimeout(() => {
-      setFlyingStamps((prev) =>
-        prev.filter((f) => !newFlyingStamps.some((n) => n.id === f.id))
-      );
+      setFlyingStamps((prev) => prev.filter((f) => !newFlyingStamps.some((n) => n.id === f.id)));
     }, 5000);
 
     axios
@@ -215,25 +206,23 @@ const GratitudeBoard = () => {
   return (
     <div className="w-full h-[1000px] border-8 border-blue-300 bg-[#EEF7FB] flex flex-col items-center justify-center p-8 relative">
       <AnimatePresence>
-        {flyingStamps
-          .slice(-1000) 
-          .map(({ id, stamp, startX, startY, endX, endY, delay }) => (
-            <motion.div
-              key={id}
-              initial={{ opacity: 1, x: startX, y: startY, scale: 1 }}
-              animate={{ opacity: 0, x: endX, y: endY, scale: 0.5 }}
-              transition={{ delay, duration: 4, ease: 'easeOut' }}
-              style={{
-                position: 'fixed',
-                fontSize: '2rem',
-                userSelect: 'none',
-                pointerEvents: 'none',
-                zIndex: 9999,
-              }}
-            >
-              {stamp}
-            </motion.div>
-          ))}
+        {flyingStamps.slice(-1000).map(({ id, stamp, startX, startY, endX, endY, delay }) => (
+          <motion.div
+            key={id}
+            initial={{ opacity: 1, x: startX, y: startY, scale: 1 }}
+            animate={{ opacity: 0, x: endX, y: endY, scale: 0.5 }}
+            transition={{ delay, duration: 4, ease: 'easeOut' }}
+            style={{
+              position: 'fixed',
+              fontSize: '2rem',
+              userSelect: 'none',
+              pointerEvents: 'none',
+              zIndex: 9999,
+            }}
+          >
+            {stamp}
+          </motion.div>
+        ))}
       </AnimatePresence>
 
       <div
@@ -318,7 +307,10 @@ const GratitudeBoard = () => {
               src="https://res.cloudinary.com/dxkgrtted/image/upload/v1751173566/Stickernote_bsguwj.png"
             />
           </Button>
-          <Button className="w-[80px] h-[80px] bg-white" onClick={() => setShowStampPicker((prev) => !prev)}>
+          <Button
+            className="w-[80px] h-[80px] bg-white"
+            onClick={() => setShowStampPicker((prev) => !prev)}
+          >
             <FaStamp className="text-black" width={50} height={50} />
           </Button>
         </div>
@@ -328,9 +320,18 @@ const GratitudeBoard = () => {
         <div className="flex flex-col items-center gap-4 bg-white border p-4 rounded-xl shadow-md mt-4">
           <div className="flex gap-2 flex-wrap justify-center">
             {[
-              '#B9FBC0', '#A0C4FF', '#FFD6A5', '#FFADAD',
-              '#D0F4DE', '#E4C1F9', '#FBE7C6', '#CDE7B0',
-              '#B5EAEA', '#FFDAC1', '#C9BBCF', '#F1F0C0',
+              '#B9FBC0',
+              '#A0C4FF',
+              '#FFD6A5',
+              '#FFADAD',
+              '#D0F4DE',
+              '#E4C1F9',
+              '#FBE7C6',
+              '#CDE7B0',
+              '#B5EAEA',
+              '#FFDAC1',
+              '#C9BBCF',
+              '#F1F0C0',
             ].map((color) => (
               <button
                 key={color}

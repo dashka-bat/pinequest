@@ -12,6 +12,7 @@ const CurrentUser = () => {
   const { data, isLoading } = useSWR('/api/auth', fetcher, {
     refreshInterval: 0,
     revalidateOnFocus: true,
+    revalidateOnMount: true,
   });
 
   const user: User | undefined = data?.success ? data.data.user : undefined;
