@@ -28,11 +28,11 @@ const DashboardSidebar = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentTab = searchParams.get('tab');
-  
+  const isUserTab = currentTab === 'user';
 
   return (
-    <aside className="w-[30%] max-w-xs bg-white p-12">
-      <div className="flex flex-col items-center justify-between h-full">
+    <div className="w-[100%] max-w-xs bg-white p-12 h-screen">
+      <div className="flex flex-col justify-between h-full">
         <nav className="flex flex-col gap-12 text-sm text-gray-700">
          
           {menu.map(({ label, href, tab, icon: Icon }) => {
@@ -84,8 +84,27 @@ const DashboardSidebar = () => {
             </Link>
           </div>
         </nav>
+        <div className="flex flex-col gap-4 pt-8 text-sm">
+          <Link
+            href="/dashboard?tab=user"
+            className={clsx(
+              'flex items-center gap-3 transition-all',
+              isUserTab ? 'text-indigo-600 font-semibold' : 'text-gray-700 hover:text-indigo-500'
+            )}
+          >
+            <HelpCircle size={20} className={isUserTab ? 'text-indigo-600' : 'text-gray-500'} />
+            Миний булан
+          </Link>
+          <Link
+            href="/logout"
+            className="flex items-center gap-3 text-red-500 hover:text-red-600 transition-all"
+          >
+            <LogOut size={20} />
+            Гарах
+          </Link>
+        </div>
       </div>
-    </aside>
+    </div>
   );
 };
 
