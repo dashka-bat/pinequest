@@ -204,7 +204,7 @@ const GratitudeBoard = () => {
   };
 
   return (
-    <div className="w-full h-[1000px] border-8 border-blue-300 bg-[#EEF7FB] flex flex-col items-center justify-center p-8 relative">
+    <div className="w-full h-[1000px] border-8 border-[#FFEBEB] bg-[#FFEBEB] flex flex-col items-center justify-center p-8 relative">
       <AnimatePresence>
         {flyingStamps.slice(-1000).map(({ id, stamp, startX, startY, endX, endY, delay }) => (
           <motion.div
@@ -226,7 +226,7 @@ const GratitudeBoard = () => {
       </AnimatePresence>
 
       <div
-        className="bg-white rounded-3xl shadow-lg border border-gray-200 p-6 flex flex-col items-center gap-4"
+        className="bg-[url('/bg.png')] bg-cover rounded-3xl shadow-lg border border-gray-200 p-6 flex flex-col items-center gap-4"
         style={{ width: STAGE_WIDTH + 120, height: STAGE_HEIGHT + 220 }}
       >
         <h2 className="text-xl font-semibold">Нэгэндээ урам өгөөрэй</h2>
@@ -235,7 +235,7 @@ const GratitudeBoard = () => {
           width={STAGE_WIDTH}
           height={STAGE_HEIGHT}
           ref={stageRef}
-          className="border border-gray-100 rounded-xl"
+          className="rounded-xl"
         >
           <Layer>
             {!loading &&
@@ -298,7 +298,7 @@ const GratitudeBoard = () => {
           </Layer>
         </Stage>
 
-        <div className="w-[280px] h-[150px] flex gap-3 justify-center ml-[1600px] bg-[#EEF7FB] absolute bottom-8  items-center rounded-tl-2xl">
+        <div className="w-[280px] h-[150px] flex gap-3 justify-center ml-[1600px] bg-[#FFEBEB] absolute bottom-8  items-center rounded-tl-2xl">
           <Button className="w-[80px] h-[80px] bg-white" onClick={() => setShowColorPicker(true)}>
             <img
               width={60}
