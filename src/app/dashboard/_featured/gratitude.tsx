@@ -55,7 +55,7 @@ const GratitudeBoard = () => {
         if (res.data.success) {
           const loadedNotes = res.data.data.notes.map((note: any) => ({
             id: note._id,
-            x: note.positionX,
+            x: note.positionX, 
             y: note.positionY,
             text: note.text || initialText,
             username: note.user.name,
@@ -154,7 +154,6 @@ const GratitudeBoard = () => {
       }
     });
   };
-
   const handleDragEnd = (note: Note, x: number, y: number) => {
     setNotes((prev) => prev.map((n) => (n.id === note.id ? { ...n, x, y } : n)));
     axios

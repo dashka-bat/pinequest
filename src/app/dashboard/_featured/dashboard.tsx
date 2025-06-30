@@ -19,7 +19,7 @@ const Dashboard = () => {
       <div className=" flex flex-col gap-2">
         <div className=" font-extrabold text-xl">Удахгүй болох үйл явдлууд</div>
         <div className=" flex flex-col gap-4">
-          <section>
+          <section >
             <BirthdayCard />
           </section>
           <section className=" flex justify-between gap-7">
