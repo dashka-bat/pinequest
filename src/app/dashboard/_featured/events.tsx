@@ -29,6 +29,7 @@ const Events = () => {
 
     fetchEvents();
   }, [refresh]);
+  console.log('Events:', events);
 
   return (
     <div className="p-4 md:p-8">

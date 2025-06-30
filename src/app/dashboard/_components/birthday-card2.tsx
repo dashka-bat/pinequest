@@ -7,7 +7,7 @@ const BirthdayCard2 = () => {
         <h2 className="text-3xl font-semibold leading-tight">
           Мөнх-Оргил-н
           <br />
-          Төрсөн өдөр
+          Төрсөн өдөр.
         </h2>
         <p className="mt-2 text-sm">Мэндчилгээг дэвшүүлээрэй</p>
       </div>
