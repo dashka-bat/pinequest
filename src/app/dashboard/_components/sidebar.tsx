@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { Home, HelpCircle, StickyNote, LogOut, PartyPopper,Pencil, UsersRound, UserRound, ChevronDown, } from 'lucide-react';
+import { Home, StickyNote, LogOut, PartyPopper,Pencil, UsersRound, UserRound, ChevronDown, } from 'lucide-react';
 
 import clsx from 'clsx';
 import { logout } from './logout';
