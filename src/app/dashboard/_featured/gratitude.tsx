@@ -130,8 +130,6 @@ const GratitudeBoard = () => {
       }
     });
   };
-
-  // Update note position
   const handleDragEnd = (note: Note, x: number, y: number) => {
     setNotes((prev) => prev.map((n) => (n.id === note.id ? { ...n, x, y } : n)));
 
