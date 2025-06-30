@@ -8,6 +8,8 @@ const userSchema = new Schema(
     allowPersonalData: { type: Boolean, required: true },
     isAdmin: { type: Boolean, required: true, default: () => false },
     role: { type: String, enum: ['Ажилтан', 'Админ'] },
+    profileImg:{type:String,required: false},
+    date:{type:String,required:false}
   },
   { timestamps: true }
 );
