@@ -64,10 +64,10 @@ const DashboardSidebar = () => {
                 href={href}
                 className={clsx(
                   'flex items-center gap-3 transition-all',
-                  isActive ? 'text-indigo-600 font-semibold' : 'hover:text-indigo-500'
+                  isActive ? 'text-[#FF5252] font-semibold' : 'hover:text-indigo-500'
                 )}
               >
-                <Icon size={20} className={clsx(isActive ? 'text-indigo-600' : 'text-gray-500')} />
+                <Icon size={20} className={clsx(isActive ? 'text-[#FF5252]' : 'text-gray-500')} />
                 {label}
               </Link>
             );

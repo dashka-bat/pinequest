@@ -32,18 +32,7 @@ export const Card = ({ id, text, x, y, selected, onClick, onDelete }: {
       }}
        className="cursor-pointer hover:bg-gray-100 p-2 rounded select-none w-[176px] h-[280px]  shadow   border"
     >
-      <div style={{ position: 'relative' }}>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete(id);
-          }}
-          className="absolute top-0 right-0 m-1 px-2 text-xs bg-red-100 text-red-600 rounded hover:bg-red-200 hidden group-hover:block"
-          style={{ display: selected ? 'block' : 'none' }}
-        >
-          ❌
-        </button>
-      </div>
+   
     
     </div>
   );
