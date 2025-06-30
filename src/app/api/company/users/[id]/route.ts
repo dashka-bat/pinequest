@@ -5,7 +5,7 @@ import { userModel } from '../../../../../../mongodb/models/user';
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    connectToDatabase();
+   await connectToDatabase();
 
     const user = await userModel.findById(params.id).select('-password');
     if (!user) {
