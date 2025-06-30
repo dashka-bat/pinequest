@@ -311,8 +311,8 @@ export default function Main() {
   modules={[Autoplay]}
   slidesPerView={2}
   loop={true}
-  autoplay={{ delay: 3000, disableOnInteraction: false }}
-  speed={1000}
+  autoplay={{ delay: 1500, disableOnInteraction: false }}
+  speed={700}
   onSlideChangeTransitionStart={(swiper) => {
     const slides = swiper.slides;
     const activeIndex = swiper.activeIndex;
