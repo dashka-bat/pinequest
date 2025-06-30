@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CloudUpload, LayoutTemplate, Sticker } from "lucide-react";
 
 export const Sidebar = ({
@@ -6,11 +6,13 @@ export const Sidebar = ({
   emojis,
   onEmojiDragStart,
    onImageUpload,
+   onStickerSelect,
 }: {
   onAdd: (id: string) => void;
   emojis: string[];
   onEmojiDragStart: (emoji: string) => void;
   onImageUpload: (url: string) => void;
+  onStickerSelect: (url: string) => void; 
 }) => {
   const [activeTab, setActiveTab] = useState<"template" | "upload" | "sticker">("template");
   const [uploadSubTab, setUploadSubTab] = useState<"image" | "video">("image");
@@ -38,6 +40,20 @@ export const Sidebar = ({
   }
 };
 
+const GIPHY_KEY = "zjV2rSPyUdk6R5cEeozDDWDLZk3rbUUI";
+
+  const [stickers, setStickers] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetch(`https://api.giphy.com/v1/stickers/trending?api_key=${GIPHY_KEY}&limit=20`)
+      .then((res) => res.json())
+      .then((json) =>
+        setStickers(json.data.map((item: any) => item.images.fixed_width.url))
+      )
+      .catch(console.error);
+  }, []);
+  console.log(stickers)
+
 
 const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
   const file = e.target.files?.[0];
@@ -45,7 +61,7 @@ const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const url = await uploadImageToCloudinary(file);
     if (url) {
       setUploadedImages((prev) => [...prev, url]);
-      onImageUpload(url); // 👉 canvas руу дамжуулж байна
+      onImageUpload(url); 
     }
   }
 };
@@ -220,17 +236,19 @@ const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         {activeTab === "sticker" && (
           <div>
             <h2 className="text-[14px] font-bold mb-[20px] text-[#0050A0]">Стикерүүд</h2>
-            <div className="flex flex-wrap gap-2">
-              {emojis.map((emoji) => (
-                <div
-                  key={emoji}
-                  draggable
-                  onDragStart={() => onEmojiDragStart(emoji)}
-                  className="text-2xl cursor-move hover:scale-110 transition-transform"
-                >
-                  {emoji}
-                </div>
-              ))}
+            <div className="flex flex-wrap gap-[40px] ml-8">
+            
+      {stickers.map((url) => (
+  <img
+    key={url}
+    src={url}
+    draggable={false}
+    onClick={() => onStickerSelect(url)} 
+    className="w-16 h-16 object-contain cursor-pointer hover:scale-110 transition-transform"
+  />
+))}
+
+  
             </div>
           </div>
         )}
