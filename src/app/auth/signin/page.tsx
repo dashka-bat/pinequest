@@ -88,7 +88,7 @@ const SignInPage = () => {
           <Button
             disabled={!form.formState.isValid || form.formState.isSubmitting}
             type="submit"
-            className="w-full bg-[#00CDE2] hover:bg-[#00b8cc] text-white"
+            className="w-full bg-[#FD6667] hover:bg-[#fd6689] text-white"
           >
             {form.formState.isSubmitting ? 'Түр хүлээнэ үү!' : 'Нэвтрэх'}
           </Button>
