@@ -33,7 +33,7 @@ const Events = () => {
   const columns = ['№', 'Нэр', 'Тэмдэглэлт өдөр', 'Огноо', 'Утас'];
 
   return (
-    <div className="p-4 md:p-8 ">
+    <div className="p-4 md:p-8  mr-24 ml-24 ">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-semibold">Тэмдэглэлт өдрүүд</h2>
         <AddEventCard setRefresh={setRefresh} />
