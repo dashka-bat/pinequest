@@ -79,7 +79,7 @@ const GratitudeBoard = () => {
     const y = 120 + Math.random() * 200;
 
     try {
-      const res = await axios.post('/api/gratitude-panel', { x, y, text: initialText, color }); // Анхны утга очиж байна
+      const res = await axios.post('/api/gratitude-panel', { x, y, text: initialText, color });
       if (res.data.success) {
         const n = res.data.data.newNote;
         setNotes((prev) => [
@@ -203,7 +203,7 @@ const GratitudeBoard = () => {
   };
 
   return (
-    <div className="w-full h-[1000px] border-8 border-[#FFEBEB] bg-[#FFEBEB] flex flex-col items-center justify-center p-8 relative">
+    <div className="w-full h-[900px]  border-8 border-[#FFEBEB] bg-[#FFEBEB] flex flex-col items-center justify-center p-8 relative pl-[60px]">
       <AnimatePresence>
         {flyingStamps.slice(-1000).map(({ id, stamp, startX, startY, endX, endY, delay }) => (
           <motion.div

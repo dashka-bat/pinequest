@@ -54,10 +54,12 @@ const Dashboard = () => {
   }, []);
 
   return (
+
     <div className="flex flex-col gap-20 p-40">
       <div className="flex flex-col gap-2">
         <div className="font-extrabold text-xl">Өнөөдөр</div>
         <div className="flex flex-col gap-4">
+
           <section>
             <BirthdayCard />
           </section>

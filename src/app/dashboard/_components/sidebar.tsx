@@ -2,20 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import {
-  Home,
-  StickyNote,
-  LogOut,
-  PartyPopper,
-  Pencil,
-  UsersRound,
-  UserRound,
-  ChevronDown,
-  // HelpCircle,
-} from 'lucide-react';
+
+import { Home, StickyNote, LogOut, PartyPopper,Pencil, UsersRound, UserRound, ChevronDown, HelpCircle, } from 'lucide-react';
+import { logout } from './logout';
 
 import clsx from 'clsx';
-// import { logout } from './logout';
+
+
 
 const menu = [
   { label: 'Миний булан', href: '/dashboard?tab=profle', tab: 'profile', icon: UserRound },
@@ -39,7 +32,7 @@ const DashboardSidebar = () => {
   // const isUserTab = currentTab === 'user';
 
   return (
-    <div className="w-[100%] max-w-xs bg-white p-12 h-screen">
+    <div className="fixed top-0 left-0 w-[100%] max-w-xs bg-white p-8 h-screen shadow z-40 pt-[120px]">
       <div className="flex flex-col justify-between h-full">
         <nav className="flex flex-col gap-12 text-sm text-gray-700">
           {menu.map(({ label, href, tab, icon: Icon }) => {
@@ -82,13 +75,16 @@ const DashboardSidebar = () => {
           })}
         </nav>
         <div className="flex flex-col gap-4 pt-8 text-sm">
-          <Link
-            href="/logout"
+
+        
+          <button
+           onClick={logout}
+
             className="flex items-center gap-3 text-red-500 hover:text-red-600 transition-all"
           >
             <LogOut size={20} />
             Гарах
-          </Link>
+          </button>
         </div>
       </div>
     </div>
