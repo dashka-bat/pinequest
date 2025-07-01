@@ -27,6 +27,7 @@ type ImageItemType = {
   x: number;
   y: number;
   scale: number;
+  type: 'image' | 'sticker';
 };
 
 export default function Home() {
@@ -40,23 +41,14 @@ export default function Home() {
 
   const emojis = ['🎉', '💖', '🎂', '👏', '🌟', '😊', '🎁'];
   const canvasRef = useRef<HTMLDivElement | null>(null);
-
-  // Drag-д зориулсан ref
-  const dragInfo = useRef<{
-    draggingId: UniqueIdentifier | null;
-    startX: number;
-    startY: number;
-    originX: number;
-    originY: number;
-  }>({
-    draggingId: null,
+  const dragInfo = useRef({
+    draggingId: null as UniqueIdentifier | null,
     startX: 0,
     startY: 0,
     originX: 0,
     originY: 0,
   });
 
-  // MouseDown дээр drag эхлүүлэх
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>, id: UniqueIdentifier) => {
     e.stopPropagation();
     const img = imageItems.find((img) => img.id === id);
@@ -75,46 +67,34 @@ export default function Home() {
     setSelectedEmojiId(null);
   };
 
-  // MouseMove дээр байрлал update хийх
   const handleMouseMove = (e: MouseEvent) => {
     if (!dragInfo.current.draggingId) return;
-
     const dx = e.clientX - dragInfo.current.startX;
     const dy = e.clientY - dragInfo.current.startY;
 
     setImageItems((prev) =>
       prev.map((img) =>
         img.id === dragInfo.current.draggingId
-          ? {
-              ...img,
-              x: dragInfo.current.originX + dx,
-              y: dragInfo.current.originY + dy,
-            }
+          ? { ...img, x: dragInfo.current.originX + dx, y: dragInfo.current.originY + dy }
           : img
       )
     );
   };
 
-  // MouseUp дээр drag дуусгах
   const handleMouseUp = () => {
     dragInfo.current.draggingId = null;
   };
 
-  // Скалингийн тохиргоо
   const handleScaleImage = (id: UniqueIdentifier, delta: number) => {
     setImageItems((prev) =>
       prev.map((img) =>
         img.id === id
-          ? {
-              ...img,
-              scale: Math.min(Math.max(img.scale + delta, 0.1), 5),
-            }
+          ? { ...img, scale: Math.min(Math.max(img.scale + delta, 0.1), 5) }
           : img
       )
     );
   };
 
-  // Карт, эмоджи, зураг устгах
   const handleDelete = (id: UniqueIdentifier) => {
     setCards((prev) => prev.filter((card) => card.id !== id));
     setEmojiItems((prev) => prev.filter((emoji) => emoji.id !== id));
@@ -122,40 +102,29 @@ export default function Home() {
   };
 
   useEffect(() => {
-    // Delete болон Backspace товч дарах event
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Delete' || e.key === 'Backspace') {
-        if (selectedCardId) {
-          handleDelete(selectedCardId);
-          setSelectedCardId(null);
-        }
-        if (selectedEmojiId) {
-          handleDelete(selectedEmojiId);
-          setSelectedEmojiId(null);
-        }
-        if (selectedImageId) {
-          handleDelete(selectedImageId);
-          setSelectedImageId(null);
-        }
+        if (selectedCardId) handleDelete(selectedCardId);
+        if (selectedEmojiId) handleDelete(selectedEmojiId);
+        if (selectedImageId) handleDelete(selectedImageId);
+        setSelectedCardId(null);
+        setSelectedEmojiId(null);
+        setSelectedImageId(null);
       }
     };
-
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedCardId, selectedEmojiId, selectedImageId]);
 
-  // Global mouse event-уудыг add/remove хийнэ
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
-
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
   }, []);
 
-  // Карт нэмэх
   const handleAddCard = (id: string) => {
     let centerX = 300;
     let centerY = 300;
@@ -175,7 +144,6 @@ export default function Home() {
     ]);
   };
 
-  // Зураг upload хийх
   const handleImageUpload = (url: string) => {
     let centerX = 300;
     let centerY = 300;
@@ -192,11 +160,32 @@ export default function Home() {
         x: centerX,
         y: centerY,
         scale: 1,
+        type: 'image',
       },
     ]);
   };
 
-  // Canvas дээр emoji drop хийх
+  const handleStickerClick = (url: string) => {
+    let centerX = 300;
+    let centerY = 300;
+    if (canvasRef.current) {
+      const rect = canvasRef.current.getBoundingClientRect();
+      centerX = rect.width / 2 - 60;
+      centerY = rect.height / 2 - 60;
+    }
+    setImageItems((prev) => [
+      ...prev,
+      {
+        id: `sticker-${Date.now()}`,
+        url,
+        x: centerX,
+        y: centerY,
+        scale: 1,
+        type: 'sticker',
+      },
+    ]);
+  };
+
   const handleCanvasDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const emoji = event.dataTransfer.getData('text/plain');
@@ -217,6 +206,69 @@ export default function Home() {
     }
   };
 
+  const renderImage = (img: ImageItemType) => {
+    const width = 120 * img.scale;
+    return (
+      <div
+        key={img.id}
+        className={`absolute cursor-move rounded-md transition-shadow duration-150 ${
+          selectedImageId === img.id
+            ? 'outline outline-4 outline-[#FD6667]'
+            : 'hover:shadow-md'
+        }`}
+        style={{
+          top: img.y,
+          left: img.x,
+          width,
+          padding: '8px',
+          boxSizing: 'content-box',
+          touchAction: 'none',
+          zIndex: img.type === 'sticker' ? 20 : 10,
+        }}
+        onMouseDown={(e) => handleMouseDown(e, img.id)}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <img
+          src={img.url}
+          alt=""
+          style={{
+            width: '100%',
+            height: 'auto',
+            display: 'block',
+            pointerEvents: 'none',
+            userSelect: 'none',
+            borderRadius: '6px',
+          }}
+          draggable={false}
+        />
+        {selectedImageId === img.id && (
+          <div className="flex justify-center gap-2 mt-2 select-none">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleScaleImage(img.id, 0.1);
+              }}
+              className="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400"
+              type="button"
+            >
+              +
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleScaleImage(img.id, -0.1);
+              }}
+              className="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400"
+              type="button"
+            >
+              -
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="flex h-screen relative">
       <Sidebar
@@ -224,8 +276,8 @@ export default function Home() {
         onAdd={handleAddCard}
         onEmojiDragStart={() => {}}
         onImageUpload={handleImageUpload}
+        onStickerSelect={handleStickerClick}
       />
-
       <div className="flex-1 p-6">
         <div
           ref={canvasRef}
@@ -258,85 +310,14 @@ export default function Home() {
             />
           ))}
 
-          {imageItems.map((img) => {
-  const width = 120 * img.scale;
-  return (
-    <div
-      key={img.id}
-      className={`absolute cursor-move rounded-md transition-shadow duration-150 ${
-        selectedImageId === img.id
-          ? 'outline outline-4 outline-[#FD6667]  '
-          : 'hover:shadow-md'
-      }`}
-      style={{
-        top: img.y,
-        left: img.x,
-        userSelect: 'none',
-        width,
-        padding: '8px', // Select талбайг томруулсан
-        boxSizing: 'content-box',
-        touchAction: 'none',
-      }}
-      onMouseDown={(e) => {
-        e.stopPropagation();
-        // Select хийх ба drag эхлүүлэх
-        dragInfo.current = {
-          draggingId: img.id,
-          startX: e.clientX,
-          startY: e.clientY,
-          originX: img.x,
-          originY: img.y,
-        };
-        setSelectedImageId(img.id);
-        setSelectedCardId(null);
-        setSelectedEmojiId(null);
-      }}
-      onClick={(e) => e.stopPropagation()} // Canvas-ийн click дамжуулахгүй
-    >
-      <img
-        src={img.url}
-        alt=""
-        style={{
-          width: '100%',
-          height: 'auto',
-          display: 'block',
-          pointerEvents: 'none',
-          userSelect: 'none',
-          borderRadius: '6px',
-        }}
-        draggable={false}
-      />
-      {selectedImageId === img.id && (
-        <div className="flex justify-center gap-2 mt-2 select-none">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleScaleImage(img.id, 0.1);
-            }}
-            className="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400"
-            type="button"
-          >
-            +
-          </button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleScaleImage(img.id, -0.1);
-            }}
-            className="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400"
-            type="button"
-          >
-            -
-          </button>
-        </div>
-      )}
-    </div>
-  );
-})}
+          {/* Зурагнууд */}
+          {imageItems.filter((img) => img.type === 'image').map(renderImage)}
 
-
+          {/* Стикерүүд – зургийн дээр */}
+          {imageItems.filter((img) => img.type === 'sticker').map(renderImage)}
         </div>
       </div>
     </div>
   );
 }
+

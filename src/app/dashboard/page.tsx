@@ -2,12 +2,9 @@ import Dashboard from './_featured/dashboard';
 import GratitudeTab from './_featured/gratitude';
 import NewCard from './_featured/new-card';
 import EventsTab from './_featured/events';
-<<<<<<< HEAD
-import UserTab from './_featured/user';
-=======
 import Users from './_featured/users';
 import Profile from './_featured/profile';
->>>>>>> main
+import { User } from 'lucide-react';
 
 type MainProps = {
   searchParams: Promise<{
@@ -25,7 +22,7 @@ const Main = async ({ searchParams }: MainProps) => {
   ) : tab === 'events' ? (
     <EventsTab />
   ) : tab === 'user' ? (
-    <UserTab />
+   <Users/>
   ) : (
     <Dashboard />
   );
