@@ -11,10 +11,9 @@ import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import {  Autoplay } from 'swiper/modules';
+import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
-
 
 export default function Main() {
   const card1 = useRef<HTMLDivElement>(null);
@@ -108,8 +107,9 @@ export default function Main() {
             ease: 'power3.out',
           },
           '-=1.2'
-        ) .fromTo(
-          card5.current, 
+        )
+        .fromTo(
+          card5.current,
           {
             x: 500,
             y: -500,
@@ -222,8 +222,8 @@ export default function Main() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="p-2">
-              <Image src="/miniLogo.png" width={68} height={48} alt="logo" />
+            <div>
+              <Image src={`/Thankly.png`} alt="logo" width={70} height={47} />
             </div>
           </motion.div>
 
@@ -234,9 +234,7 @@ export default function Main() {
             transition={{ duration: 0.8, delay: 1.2 }}
           >
             <Link href="/auth/signin">
-              <button className="bg-white text-black text-[16px] w-[91px] h-[36px]">
-                Нэвтрэх
-              </button>
+              <button className="bg-white text-black text-[16px] w-[91px] h-[36px]">Нэвтрэх</button>
             </Link>
             <Link href="/auth/signup">
               <button className="text-[16px] w-[110px] h-[36px] rounded-3xl bg-[#FD8E8E] text-white">
@@ -248,7 +246,7 @@ export default function Main() {
 
         {/* Hero section */}
         <div className="w-full h-[700px] relative flex items-center justify-center">
-        <div
+          <div
             ref={card1}
             style={{ transform: 'translate(400px, -500px) scale(0.3)', opacity: 0 }}
             className="absolute left-[100px] top-[370px] w-[267px] h-[177px] rotate-45"
@@ -280,7 +278,11 @@ export default function Main() {
             <Image src="/Template4.svg" alt="template1" width={267} height={177} />
           </div>
 
-          <div ref={card5} style={{ transform: 'translate(500px, -500px) scale(0.3)', opacity: 0 }} className="absolute right-[564px] top-[500px] w-[267px] h-[177px] rotate-45">
+          <div
+            ref={card5}
+            style={{ transform: 'translate(500px, -500px) scale(0.3)', opacity: 0 }}
+            className="absolute right-[564px] top-[500px] w-[267px] h-[177px] rotate-45"
+          >
             <Image src="/Template5.svg" alt="template5" width={267} height={177} />
           </div>
 
@@ -305,66 +307,65 @@ export default function Main() {
             </p>
           </div>
           <div className="overflow-hidden w-full flex justify-center items-center">
-         
-    <div className="w-full max-w-[1200px] mx-auto py-20">
-    <Swiper
-  modules={[Autoplay]}
-  slidesPerView={2}
-  loop={true}
-  autoplay={{ delay: 1500, disableOnInteraction: false }}
-  speed={700}
-  onSlideChangeTransitionStart={(swiper) => {
-    const slides = swiper.slides;
-    const activeIndex = swiper.activeIndex;
-    // Example: animate the previous slide out to the right
-    gsap.to(slides[activeIndex - 1], { x: 100, opacity: 0, duration: 0.5 });
-    // Animate next slide in from left
-    gsap.fromTo(
-      slides[activeIndex],
-      { x: -100, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.5 }
-    );
-  }}
->
-        <SwiperSlide>
-          <Image
-            src="/Template1.svg"
-            alt="Template 1"
-            width={300}
-            height={200}
-            className="rounded-2xl"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Image
-            src="/Template2.svg"
-            alt="Template 2"
-            width={300}
-            height={200}
-            className="rounded-2xl"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Image
-            src="/Template3.svg"
-            alt="Template 3"
-            width={300}
-            height={200}
-            className="rounded-2xl"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Image
-            src="/Template4.svg"
-            alt="Template 4"
-            width={300}
-            height={200}
-            className="rounded-2xl"
-          />
-        </SwiperSlide>
-      </Swiper>
-    </div>
-    </div>
+            <div className="w-full max-w-[1200px] mx-auto py-20">
+              <Swiper
+                modules={[Autoplay]}
+                slidesPerView={2}
+                loop={true}
+                autoplay={{ delay: 1500, disableOnInteraction: false }}
+                speed={700}
+                onSlideChangeTransitionStart={(swiper) => {
+                  const slides = swiper.slides;
+                  const activeIndex = swiper.activeIndex;
+                  // Example: animate the previous slide out to the right
+                  gsap.to(slides[activeIndex - 1], { x: 100, opacity: 0, duration: 0.5 });
+                  // Animate next slide in from left
+                  gsap.fromTo(
+                    slides[activeIndex],
+                    { x: -100, opacity: 0 },
+                    { x: 0, opacity: 1, duration: 0.5 }
+                  );
+                }}
+              >
+                <SwiperSlide>
+                  <Image
+                    src="/Template1.svg"
+                    alt="Template 1"
+                    width={300}
+                    height={200}
+                    className="rounded-2xl"
+                  />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <Image
+                    src="/Template2.svg"
+                    alt="Template 2"
+                    width={300}
+                    height={200}
+                    className="rounded-2xl"
+                  />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <Image
+                    src="/Template3.svg"
+                    alt="Template 3"
+                    width={300}
+                    height={200}
+                    className="rounded-2xl"
+                  />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <Image
+                    src="/Template4.svg"
+                    alt="Template 4"
+                    width={300}
+                    height={200}
+                    className="rounded-2xl"
+                  />
+                </SwiperSlide>
+              </Swiper>
+            </div>
+          </div>
         </section>
 
         <footer ref={footerRef} className="mt-[100px] mb-[200px]">
