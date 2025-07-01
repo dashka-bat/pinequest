@@ -52,28 +52,29 @@ export default function Users() {
 
   return (
     <>
+
      <div className="pl-[50px]">
          <div className="flex  justify-between">
         <div className="text-[20px] text-black">Нийт ажилтан</div>
       </div>
 
-      <div className="h-[604px] bg-[#ECECEC] rounded-[20px] mt-[16px]">
+      <div className="h-full bg-white rounded-[20px] mt-[16px] p-20">
         <div className="px-[12px] py-[12px]">
-          <div className="bg-white flex h-[46px] justify-between items-center rounded-[8px]">
+          <div className="bg-[#FAFAFA] flex h-[46px] justify-between mr-0 items-center rounded-[8px] p-5">
             <div className="flex gap-3 ml-2">
               <div className="text-[16px]">№</div>
               <div className="text-[#606060] text-[16px]">Нэр</div>
             </div>
-            <div className="text-[#606060] text-[16px]">Имэйл хаяг</div>
-            <div className="text-[#606060] text-[16px]">Огноо</div>
-            <div className="text-[#606060] text-[16px] mr-2">Хянах</div>
+            <div className="text-[#606060] text-[16px] ml-24 ">Имэйл хаяг</div>
+            <div className="text-[#606060] text-[16px] ml-6 ">Огноо</div>
+            <div className="text-[#606060] text-[16px] ">Хянах</div>
           </div>
         </div>
 
        {users.map((user, index) => (
   <div
     className={`ml-[10px] mr-[10px] ${
-      index % 2 === 0 ? 'bg-white' : 'bg-[#F9F9F9]'
+      index % 2 === 0 ? 'bg-white' : 'bg-white'
     }`}
     key={user._id}
   >
@@ -96,7 +97,7 @@ export default function Users() {
 
 
       <button
-        className="w-[14px] h-[14px] justify-self-end"
+        className="w-[14px] h-[14px] justify-self-end mr-6"
         // onClick={() => handleDelete(user._id)}
       >
         <Trash2 size={14} />
