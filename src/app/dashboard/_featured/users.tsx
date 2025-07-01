@@ -55,10 +55,10 @@ export default function Users() {
 
      <div className="pl-[50px]">
          <div className="flex  justify-between">
-        <div className="text-[20px] text-black">Нийт ажилтан</div>
+        <div className="text-[20px] text-black pl-20 pt-14">Нийт ажилтан</div>
       </div>
 
-      <div className="h-full bg-white rounded-[20px] mt-[16px] p-20">
+      <div className="h-full bg-white rounded-[20px] mt-[16px] pl-14 pr-14">
         <div className="px-[12px] py-[12px]">
           <div className="bg-[#FAFAFA] flex h-[46px] justify-between mr-0 items-center rounded-[8px] p-5">
             <div className="flex gap-3 ml-2">
