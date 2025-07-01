@@ -3,6 +3,7 @@ import GratitudeTab from './_featured/gratitude';
 import NewCard from './_featured/new-card';
 import EventsTab from './_featured/events';
 import Users from './_featured/users';
+import Posts from './_featured/posts';
 // import Profile from './_featured/profile';
 // import { User } from 'lucide-react';
 
@@ -23,7 +24,10 @@ const Main = async ({ searchParams }: MainProps) => {
     <EventsTab />
   ) : tab === 'user' ? (
     <Users />
-  ) : (
+  ) : tab==="posts" ? (
+    <Posts/>
+  ) :
+  (
     <Dashboard />
     
   );
