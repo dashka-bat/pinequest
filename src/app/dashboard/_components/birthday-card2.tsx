@@ -23,7 +23,7 @@ const BirthdayCard = () => {
   if (!birthday) return <div>Түр хүлээнэ үү...</div>;
 
   return (
-    <div className="relative flex justify-between items-center rounded-3xl p-10 w-full bg-white text-black shadow-lg border border-gray-200">
+    <div className="relative flex justify-between items-center rounded-3xl p-10 w-full bg-white text-black">
       <div>
         <h2 className="text-3xl font-semibold leading-tight">
           {birthday.name}-н

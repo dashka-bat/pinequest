@@ -2,13 +2,17 @@
 
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-
-import { Home, StickyNote, LogOut, PartyPopper,Pencil, UsersRound, UserRound, ChevronDown, HelpCircle, } from 'lucide-react';
-import { logout } from './logout';
-
+import {
+  Home,
+  StickyNote,
+  LogOut,
+  PartyPopper,
+  Pencil,
+  UsersRound,
+  UserRound,
+  ChevronDown,
+} from 'lucide-react';
 import clsx from 'clsx';
-
-
 
 const menu = [
   { label: 'Миний булан', href: '/dashboard?tab=profle', tab: 'profile', icon: UserRound },
@@ -30,6 +34,12 @@ const DashboardSidebar = () => {
   const searchParams = useSearchParams();
   const currentTab = searchParams.get('tab');
   // const isUserTab = currentTab === 'user';
+
+  // Placeholder logout handler
+  const logout = () => {
+    // TODO: Implement logout logic here
+    console.log('Logout clicked');
+  };
 
   return (
     <div className="fixed top-0 left-0 w-[100%] max-w-xs bg-white p-8 h-screen shadow z-40 pt-[120px]">
