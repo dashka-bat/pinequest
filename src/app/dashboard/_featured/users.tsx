@@ -52,8 +52,10 @@ export default function Users() {
 
   return (
     <>
-      <div className="flex justify-between pl-12">
-        <div className="text-[20px] text-black ">Нийт ажилтан</div>
+
+     <div className="pl-[50px]">
+         <div className="flex  justify-between">
+        <div className="text-[20px] text-black">Нийт ажилтан</div>
       </div>
 
       <div className="h-full bg-white rounded-[20px] mt-[16px] p-20">
@@ -105,6 +107,7 @@ export default function Users() {
 ))}
 
       </div>
+     </div>
     </>
   );
 }

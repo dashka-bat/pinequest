@@ -13,11 +13,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <Suspense>
       <div className="flex flex-col min-h-screen">
         <div className="flex flex-1">
-          <div className='fixed top-0 left-0 z-50  bg-white shadow-md'>
+          <div className='  bg-white shadow-md'>
           <DashboardSidebar />
           </div>
          
-          <div className="flex-1 pl-[300px]">{children}</div>
+          <div className="flex-1 pt-[104px] pl-[260px]  ">{children}</div>
         </div>
       </div>
     </Suspense>

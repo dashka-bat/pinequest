@@ -1,39 +1,116 @@
+'use client';
+import { useEffect, useState } from 'react';
+
 import BirthdayCard from '../_components/birthday-card';
 import BirthdayCard2 from '../_components/birthday-card2';
 import MiniEventCard from '../_components/mini-event-card';
+import MiniEventCard2 from '../_components/mini-event-card2';
+
+type Event = {
+  name: string;
+  type: string;
+  date: string;
+  phone: string;
+  imageUrl1?: string;
+  imageUrl2?: string;
+};
 
 const Dashboard = () => {
+  const [events, setEvents] = useState<Event[]>([]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const res = await fetch('/api/company/events', {
+          method: 'GET',
+          credentials: 'include',
+        });
+
+        const contentType = res.headers.get('content-type');
+        if (!res.ok || !contentType?.includes('application/json')) {
+          const errorText = await res.text();
+          console.error('API JSON биш:', errorText);
+          return;
+        }
+
+        const json = await res.json();
+
+        if (json.success && json.data?.events) {
+          const companyEvents = json.data.events
+            .filter((event: Event) => event.type !== 'birthday')
+            .sort((a: Event, b: Event) => new Date(a.date).getTime() - new Date(b.date).getTime())
+            .slice(0, 2);
+
+          setEvents(companyEvents);
+        } else {
+          console.error('Амжилтгүй хүсэлт:', json.message);
+        }
+      } catch (err) {
+        console.error('Fetch алдаа:', err);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
   return (
-    <div className=" flex flex-col gap-20">
-      <div className=" flex flex-col gap-2">
-        <div className=" font-extrabold text-xl">Өнөөдөр</div>
-        <div className=" flex flex-col gap-4">
+
+    <div className="flex flex-col gap-20 p-40">
+      <div className="flex flex-col gap-2">
+        <div className="font-extrabold text-xl">Өнөөдөр</div>
+        <div className="flex flex-col gap-4">
+
           <section>
             <BirthdayCard />
           </section>
-        
+          <div className="font-extrabold text-xl mt-10">Удахгүй болох үйл явдлууд</div>
         </div>
-      </div>
-      <div className=" flex flex-col gap-2">
-        <div className=" font-extrabold text-xl">Удахгүй болох үйл явдлууд</div>
-        <div className=" flex flex-col gap-4">
-            <section>
+
+        <div className="bg-gray-50 p-6 rounded-lg space-y-8">
+          <section>
             <BirthdayCard2 />
           </section>
-          <section className=" flex justify-between gap-7">
-            <MiniEventCard
-              title="game night"
-              caption="Caption"
-              date="2025 06 13"
-              imageUrl="https://res.cloudinary.com/dxkgrtted/image/upload/v1750845146/GameNight_s81lsw.png"
-            />
-            <MiniEventCard
-              title="Garchig"
-              caption="Caption"
-              date="2025 07 23"
-              imageUrl="/envelope.png"
-            />
-          </section>
+
+          <div className="flex flex-col">
+            <section className="flex justify-center items-center gap-10 rounded-lg ">
+              {events.length >= 1 && (
+                <MiniEventCard
+                  title={events[0].name}
+                  caption={events[0].type}
+                  date={new Date(events[0].date).toLocaleDateString('mn-MN', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                  weekday={new Date(events[0].date).toLocaleDateString('mn-MN', {
+                    weekday: 'long',
+                  })}
+                  imageUrl={events[0].imageUrl1 || '/key.png'}
+                />
+              )}
+
+              {events.length >= 2 && (
+                <MiniEventCard2
+                  title={events[1].name}
+                  caption={events[1].type}
+                  date={new Date(events[1].date).toLocaleDateString('mn-MN', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                  weekday={new Date(events[1].date).toLocaleDateString('mn-MN', {
+                    weekday: 'long',
+                  })}
+                  imageUrl1={events[1].imageUrl1 || '/Vector 1.png'}
+                  imageUrl2={events[1].imageUrl2 || '/img2.png'}
+                />
+              )}
+
+              {events.length === 0 && (
+                <p className="text-gray-500 text-sm">Компанийн үйл явдал олдсонгүй</p>
+              )}
+            </section>
+          </div>
         </div>
       </div>
     </div>
