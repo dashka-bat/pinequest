@@ -46,7 +46,7 @@ const BirthdayCard = () => {
             <p className="mt-2 text-sm">{birthday.message}</p>
           </div>
         </div>
-        <div className="text-white text-2xl font-semibold">Өнөөдөр</div>
+        <div className="text-white text-3xl font-semibold">Өнөөдөр</div>
       </div>
     </div>
   );
