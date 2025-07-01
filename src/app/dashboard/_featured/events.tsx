@@ -29,63 +29,52 @@ const Events = () => {
 
     fetchEvents();
   }, [refresh]);
-  console.log('Events:', events);
+
+  const columns = ['№', 'Нэр', 'Тэмдэглэлт өдөр', 'Огноо', 'Утас'];
 
   return (
-    <div className="p-4 md:p-8">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold">Тэмдэглэлт өдрүүд</h2>
+    <div className="p-4 md:p-8  mr-24 ml-24 ">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-semibold">Тэмдэглэлт өдрүүд</h2>
         <AddEventCard setRefresh={setRefresh} />
       </div>
+      <div className=" rounded-[20px] shadow-sm overflow-hidden text-sm bg-gray-50 p-[10px]">
+        <div className="grid grid-cols-5  text-gray-400 font-normal px-4 py-3 border-b border-gray-100 rounded-[8px] bg-white ">
+          {columns.map((col, idx) => (
+            <div key={idx}>{col}</div>
+          ))}
+        </div><div className='bg-white w-auto h-auto rounded-lg mt-[10px]'>
+        {loading ? (
+          <div className="text-center text-gray-400 py-6">Уншиж байна...</div>
+        ) : error ? (
+          <div className="text-center text-red-500 py-6">Алдаа гарлаа. Сүлжээг шалгана уу.</div>
+        ) : events.length === 0 ? (
+          <div className="text-center text-gray-400 py-6">Тэмдэглэлт өдөр бүртгэгдээгүй байна.</div>
+        ) : (
+          events.map((event, index) => (
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200/10 rounded-md">
-          <thead className="bg-gray-50/5">
-            <tr className="text-left text-gray-600 text-sm font-medium">
-              <th className="px-4 py-2 text-gray-400">№</th>
-              <th className="px-4 py-2 text-gray-400">Нэр</th>
-              <th className="px-4 py-2 text-gray-400">Тэмдэглэлт өдөр</th>
-              <th className="px-4 py-2 text-gray-400">Огноо</th>
-              <th className="px-4 py-2 text-gray-400">Утас</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr>
-                <td colSpan={5} className="px-4 py-6 text-center text-sm text-gray-500">
-                  Уншиж байна...
-                </td>
-              </tr>
-            ) : error ? (
-              <tr>
-                <td colSpan={5} className="px-4 py-6 text-center text-sm text-red-500">
-                  Алдаа гарлаа. Сүлжээг шалгана уу.
-                </td>
-              </tr>
-            ) : events.length === 0 ? (
-              <tr>
-                <td colSpan={5} className="px-4 py-6 text-center text-sm text-gray-400">
-                  Тэмдэглэлт өдөр бүртгэгдээгүй байна.
-                </td>
-              </tr>
-            ) : (
-              events.map((event, index) => (
-                <tr key={event._id} className="border-t text-sm">
-                  <td className="px-4 py-2">{index + 1}</td>
-                  <td className="px-4 py-2">{event.name}</td>
-                  <td className="px-4 py-2">
-                    {event.type === 'birthday' ? 'Төрсөн өдөр' : 'Компаны ой'}
-                  </td>
-                  <td className="px-4 py-2">
-                    {event.date ? format(new Date(event.date), 'yyyy/MM/dd') : ''}
-                  </td>
+            <div
+              key={event._id}
+              className="grid grid-cols-5 px-4 py-3 border-t border-gray-100 text-gray-900 "
+            >
+              <div>{index + 1}</div>
+              <div>{event.name || '⏳'}</div>
+              <div>
+                {{
+                  birthday: 'Төрсөн өдөр',
+                  company: 'Компаны ой',
+                  naadam: 'Наадам',
+                  humanitarian: 'Хүмүүнлэгийн өдөр',
+                  youth: 'Залуучуудын өдөр',
+                  psychology: 'Сэтгэл зүйн өдөр',
+                }[event.type] || event.type || '⏳'}
+              </div>
+              <div>{event.date ? format(new Date(event.date), 'M-р сарын d') : ''}</div>
+              <div>{event.phone || ''}</div>
+            </div>
 
-                  <td className="px-4 py-2">{event.phone}</td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+          ))
+        )}</div>
       </div>
     </div>
   );

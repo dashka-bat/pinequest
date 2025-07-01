@@ -14,6 +14,7 @@ export const Sidebar = ({
 }) => {
   const [activeTab, setActiveTab] = useState<"template" | "upload" | "sticker">("template");
   const [uploadSubTab, setUploadSubTab] = useState<"image" | "video">("image");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [uploadedImages, setUploadedImages] = useState<string[]>([]); 
   const uploadImageToCloudinary = async (file: File): Promise<string | null> => {
   const url = "https://api.cloudinary.com/v1_1/df88yvhqr/image/upload";
@@ -37,7 +38,6 @@ export const Sidebar = ({
     return null;
   }
 };
-
 const GIPHY_KEY = "zjV2rSPyUdk6R5cEeozDDWDLZk3rbUUI";
 
   const [stickers, setStickers] = useState<string[]>([]);
@@ -69,10 +69,8 @@ const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 
   return (
     <div className="w-[395px] h-[950px] flex">
-
       <div className="w-[82px] border-r border-[#EFEFEF] border-[0.5px] border-solid">
         <div className="py-[20px] px-[10px]">
-   
           <div
             onClick={() => setActiveTab("template")}
             className="w-[62px] h-[59px] flex flex-col items-center cursor-pointer"

@@ -2,8 +2,8 @@
 
 import useSWR from 'swr';
 import axios from 'axios';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+// import Link from 'next/link';
+// import { Button } from '@/components/ui/button';
 import { User } from '../../../mongodb/models/user';
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
@@ -19,16 +19,21 @@ const CurrentUser = () => {
 
   if (isLoading) return <p className="text-sm text-gray-500">Түр хүлээнэ үү...</p>;
 
-  if (user) return <p className="text-sm font-medium">{user.email}</p>;
+  // if (user) return <p className="text-sm font-medium">{user.email}</p>;
 
   return (
     <div className="flex gap-2">
-      <Link href="/auth/signin">
+      {user ? (
+        <p className="text-sm font-medium">{user.email}</p>
+      ) : (
+        <p className="text-sm text-gray-500">Түр хүлээнэ үү...</p>
+      )}
+      {/* <Link href="/auth/signin">
         <Button>Нэвтрэх</Button>
       </Link>
       <Link href="/auth/signup">
         <Button variant="outline">Бүртгүүлэх</Button>
-      </Link>
+      </Link> */}
     </div>
   );
 };
