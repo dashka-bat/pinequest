@@ -13,7 +13,7 @@ const RewardGoalCard = ({ goal, current, rewardImage, date, rewardName }: Reward
   const formattedDate = new Date(date).toISOString().split('T')[0];
 
   return (
-    <div className="flex items-center space-x-4 bg-white px-3 py-2 rounded-lg">
+    <div className="flex items-center space-x-4 bg-white px-3 py-2 rounded-lg border border-solid border-gray-100">
       <div className="flex-1">
         <p className="text-sm font-semibold">{formattedDate}</p>
         <p className="text-xs text-gray-600">

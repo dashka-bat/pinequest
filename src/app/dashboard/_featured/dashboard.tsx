@@ -54,25 +54,23 @@ const Dashboard = () => {
   }, []);
 
   return (
-
-    <div className="flex flex-col gap-20 p-40">
-      <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-10 p-40">
+      <div className="flex flex-col gap-4">
         <div className="font-extrabold text-xl">Өнөөдөр</div>
         <div className="flex flex-col gap-4">
-
           <section>
             <BirthdayCard />
           </section>
           <div className="font-extrabold text-xl mt-10">Удахгүй болох үйл явдлууд</div>
         </div>
 
-        <div className="bg-gray-50 p-6 rounded-lg space-y-8">
+        <div className="bg-gray-50 p-6 rounded-3xl space-y-6">
           <section>
             <BirthdayCard2 />
           </section>
 
           <div className="flex flex-col">
-            <section className="flex justify-center items-center gap-10 rounded-lg ">
+            <section className="flex justify-center items-center gap-8 rounded-lg ">
               {events.length >= 1 && (
                 <MiniEventCard
                   title={events[0].name}
@@ -107,7 +105,7 @@ const Dashboard = () => {
               )}
 
               {events.length === 0 && (
-                <p className="text-gray-500 text-sm">Компанийн үйл явдал олдсонгүй</p>
+                <p className="text-[#27296D] text-sm">Компанийн үйл явдал олдсонгүй</p>
               )}
             </section>
           </div>
