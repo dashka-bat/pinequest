@@ -33,6 +33,7 @@ const AddEventCard = ({ setRefresh }: { setRefresh: Dispatch<SetStateAction<bool
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [response, setResponse] = useState<ResponseType>();
+  const [open, setOpen] = useState(false); // Dialog нээх/хаах төлөв
 
   const form = useForm<AddEventSchemaType>({
     resolver: zodResolver(AddEventSchema),
@@ -66,6 +67,7 @@ const AddEventCard = ({ setRefresh }: { setRefresh: Dispatch<SetStateAction<bool
       setResponse(res.data);
       if (res.data.success) {
         setRefresh((prev) => !prev);
+        setOpen(false); // Dialog хаах
       }
     } catch (err) {
       console.error(err);
@@ -81,12 +83,12 @@ const AddEventCard = ({ setRefresh }: { setRefresh: Dispatch<SetStateAction<bool
   }, [response]);
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       {response && <CustomSnackbar response={response} />}
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="border-green-600 hover:bg-green-50 rounded-full cursor-pointer"
+          className="border-[#FF8585] hover:bg-green-50 rounded-full cursor-pointer"
         >
           Өдөр нэмэх
         </Button>
@@ -139,7 +141,6 @@ const AddEventCard = ({ setRefresh }: { setRefresh: Dispatch<SetStateAction<bool
                       <FormItem className="flex-1">
                         <Label>Утасны дугаар</Label>
                         <FormControl>
-                          {/* type="text" болгосон */}
                           <Input
                             placeholder="Дугаар"
                             type="text"
@@ -223,7 +224,7 @@ const AddEventCard = ({ setRefresh }: { setRefresh: Dispatch<SetStateAction<bool
                 <Button
                   disabled={form.formState.isSubmitting || !form.formState.isValid}
                   type="submit"
-                  className="bg-black text-white px-6 cursor-pointer"
+                  className="bg-[#FF8585] text-white w-[188px] cursor-pointer"
                 >
                   Хадгалах
                 </Button>
