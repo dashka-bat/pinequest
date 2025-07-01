@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const Header = () => {
   return (
-    <div className=" h-20 flex justify-between items-center p-4 px-24">
+    <div className=" fixed top-0 left-0 w-full z-50 bg-white h-20 flex justify-between items-center p-4 px-24 shadow">
       <Link href={'/dashboard'}>
         {' '}
         <div>
