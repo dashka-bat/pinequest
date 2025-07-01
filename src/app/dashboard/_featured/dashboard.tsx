@@ -11,31 +11,30 @@ const Dashboard = () => {
           <section>
             <BirthdayCard />
           </section>
+          <div className=" font-extrabold text-xl mt-10">Удахгүй болох үйл явдлууд</div>
+        </div>
+        <div className="bg-gray-50 p-6 rounded-lg space-y-8">
           <section>
             <BirthdayCard2 />
           </section>
-        </div>
-      </div>
-      <div className=" flex flex-col gap-2">
-        <div className=" font-extrabold text-xl">Удахгүй болох үйл явдлууд</div>
-        <div className=" flex flex-col gap-4">
-          <section >
-            <BirthdayCard />
-          </section>
-          <section className=" flex justify-between gap-7">
-            <MiniEventCard
-              title="game night"
-              caption="Caption"
-              date="2025 06 13"
-              imageUrl="https://res.cloudinary.com/dxkgrtted/image/upload/v1750845146/GameNight_s81lsw.png"
-            />
-            <MiniEventCard
-              title="Garchig"
-              caption="Caption"
-              date="2025 07 23"
-              imageUrl="/envelope.png"
-            />
-          </section>
+
+          <div className="flex flex-col">
+            <section className="flex justify-between">
+              <MiniEventCard
+                title="game night"
+                caption="Caption"
+                date="2023-10-01"
+                imageUrl="./Group 50.png"
+                />
+              <MiniEventCard
+                title="Байгууллагын өдөрлөг"
+                caption="Талархаж явдаг хүндээ захидал бичих өдөр"
+                date="2023-10-15"
+                imageUrl="/Group 50.png"
+              />
+             
+            </section>
+          </div>
         </div>
       </div>
     </div>
