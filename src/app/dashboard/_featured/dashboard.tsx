@@ -54,7 +54,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-10 p-40">
+    <div className="flex flex-col gap-10 px-40 pt-10">
       <div className="flex flex-col gap-4">
         <div className="font-extrabold text-xl">Өнөөдөр</div>
         <div className="flex flex-col gap-4">
