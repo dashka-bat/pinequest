@@ -333,7 +333,7 @@ useEffect(() => {
 
 
   return (
-    <div className="flex pl-[20px] h-screen relative">
+    <div className="flex pl-[20px] h-screen relative ml-20 border-2 rounded-lg ">
       <Sidebar
         emojis={emojis}
         onAdd={handleAddCard}

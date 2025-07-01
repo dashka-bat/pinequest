@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <DashboardSidebar />
           </div>
          
-          <div className="flex-1 pt-[104px] pl-[260px]  ">{children}</div>
+          <div className="flex-1 pt-20 pl-[260px]  ">{children}</div>
         </div>
       </div>
     </Suspense>
