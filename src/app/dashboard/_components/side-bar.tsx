@@ -68,8 +68,8 @@ const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 
 
   return (
-    <div className="w-[395px] h-[950px] flex">
-      <div className="w-[82px] border-r border-[#EFEFEF] border-[0.5px] border-solid">
+    <div className="w-[395px] h-full flex">
+      <div className="w-[82px] border-l-0 border-[#EFEFEF] border-solid border-r-2">
         <div className="py-[20px] px-[10px]">
           <div
             onClick={() => setActiveTab("template")}
