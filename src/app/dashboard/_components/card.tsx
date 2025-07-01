@@ -1,5 +1,5 @@
 import { UniqueIdentifier } from "@dnd-kit/core";
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const Card = ({ id, text, x, y, selected, onClick, onDelete }: {
   id: UniqueIdentifier;
   text: string;
