@@ -3,8 +3,6 @@ import { CloudUpload, LayoutTemplate, Sticker } from "lucide-react";
 
 export const Sidebar = ({
   onAdd,
-  emojis,
-  onEmojiDragStart,
    onImageUpload,
    onStickerSelect,
 }: {

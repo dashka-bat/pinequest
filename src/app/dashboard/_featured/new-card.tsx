@@ -5,6 +5,7 @@ import { UniqueIdentifier } from '@dnd-kit/core';
 import { Card } from '../_components/card';
 import { StaticEmoji } from '../_components/staticEmoji';
 import { Sidebar } from '../_components/side-bar';
+import { ChevronRight } from 'lucide-react';
 
 type CardType = {
   id: UniqueIdentifier;
@@ -34,10 +35,42 @@ export default function Home() {
   const [cards, setCards] = useState<CardType[]>([]);
   const [emojiItems, setEmojiItems] = useState<EmojiType[]>([]);
   const [imageItems, setImageItems] = useState<ImageItemType[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   const [selectedCardId, setSelectedCardId] = useState<UniqueIdentifier | null>(null);
   const [selectedEmojiId, setSelectedEmojiId] = useState<UniqueIdentifier | null>(null);
   const [selectedImageId, setSelectedImageId] = useState<UniqueIdentifier | null>(null);
+  const [users, setUsers] = useState<{ _id: string; name: string ;email:string }[]>([]);
+const [selectedRecipient, setSelectedRecipient] = useState<string>('');
+
+useEffect(() => {
+  const fetchUsers = async () => {
+    try {
+      const res = await fetch('/api/company/all-users');
+      const data = await res.json();
+      setUsers(data);
+    } catch (err) {
+      console.error('Хэрэглэгчид татахад алдаа:', err);
+    }
+  };
+  fetchUsers();
+}, []);
+const popupRef = useRef<HTMLDivElement | null>(null);
+
+useEffect(() => {
+  const handleClickOutside = (e: MouseEvent) => {
+    if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
+      setIsModalOpen(false);
+      setSelectedRecipient('')
+    }
+  };
+  document.addEventListener('mousedown', handleClickOutside);
+  return () => {
+    document.removeEventListener('mousedown', handleClickOutside);
+  };
+}, []);
+
 
   const emojis = ['🎉', '💖', '🎂', '👏', '🌟', '😊', '🎁'];
   const canvasRef = useRef<HTMLDivElement | null>(null);
@@ -268,6 +301,36 @@ export default function Home() {
       </div>
     );
   };
+  const handleSend = async (recipientId: string) => {
+    setIsModalOpen(true)
+  const payload = {
+    cards,
+    emojiItems : imageItems.filter((item) => item.type === 'sticker'),
+    imageItems,
+  };
+
+  try {
+    const res = await fetch('/api/send-canva', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        toUserId: recipientId,
+        postData: payload,
+      }),
+    });
+
+    if (res.ok) {
+      alert('Амжилттай илгээгдлээ!');
+    } else {
+      console.error('Илгээхэд алдаа гарлаа');
+    }
+  } catch (err) {
+    console.error('Fetch алдаа:', err);
+  }
+};
+
 
   return (
     <div className="flex pl-[20px] h-screen relative">
@@ -309,12 +372,76 @@ export default function Home() {
               onClick={setSelectedEmojiId}
             />
           ))}
-
-          {/* Зурагнууд */}
           {imageItems.filter((img) => img.type === 'image').map(renderImage)}
-
-          {/* Стикерүүд – зургийн дээр */}
           {imageItems.filter((img) => img.type === 'sticker').map(renderImage)}
+          <div className="flex gap-4 items-center mb-4">
+{isModalOpen && (
+  <div
+    ref={popupRef}
+    className="absolute bottom-20 right-6 w-[460px] h-[556px] bg-[#F5F5F5] rounded-[12px] shadow-lg z-50"
+  >
+    <p className="text-[16px] text-[#000000] py-[24px] px-[24px] font-medium">Ажилтан сонгох</p>
+
+    <input
+      placeholder="       Бүртгэлийн дугаараар хайх"
+      className="w-[412px] h-[55px] bg-[#ffffff] rounded-[8px] my-[12px] mx-[24px] text-[14px] border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+    />
+
+    <div className="overflow-y-auto max-h-[340px]">
+      {users.slice(0, 5).map((user) => (
+        <div
+          key={user._id}
+          onClick={() => setSelectedRecipient(user._id)}
+          className={`cursor-pointer bg-white mx-[24px] border-b border-[#DADCE0] h-[63px] flex items-center px-[12px] transition-colors rounded-[8px] ${
+            selectedRecipient === user._id ? 'bg-blue-100' : 'hover:bg-gray-100'
+          }`}
+        >
+          <img
+            className="w-[36px] h-[36px] rounded-full"
+            src="Thankly.png"
+            alt={user.name}
+          />
+          <div className="pl-[12px]">
+            <div
+              className={`text-[12px] ml-[8px] font-medium ${
+                selectedRecipient === user._id ? 'text-blue-600' : 'text-black'
+              }`}
+            >
+              {user.name}
+            </div>
+            <div className="text-[#888888] text-[10px] ml-[8px]">{user.email}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    
+      <button
+        onClick={() => {
+          handleSend(selectedRecipient);
+          setIsModalOpen(false);
+          setSelectedRecipient('')
+        }}
+        disabled={!selectedRecipient}
+        className="bg-[#FF5252] text-white flex justify-center items-center mx-[24px] my-[24px] h-[51px] rounded  disabled:bg-gray-400 w-[412px]"
+      >
+        Илгээх
+      </button>
+  
+  </div>
+)}
+
+ <button
+  onClick={() => setIsModalOpen(true)}
+  
+  className="absolute bottom-4 right-4 bg-[#FF5252] text-white w-[42px] h-[42px] rounded-full flex justify-center items-center "
+>
+  <ChevronRight/>
+
+</button>
+
+</div>
+
         </div>
       </div>
     </div>
