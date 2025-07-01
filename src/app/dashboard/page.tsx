@@ -25,6 +25,7 @@ const Main = async ({ searchParams }: MainProps) => {
     <Users />
   ) : (
     <Dashboard />
+    
   );
 };
 
