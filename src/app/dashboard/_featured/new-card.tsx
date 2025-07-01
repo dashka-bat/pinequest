@@ -270,7 +270,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex h-screen relative">
+    <div className="flex pl-[20px] h-screen relative">
       <Sidebar
         emojis={emojis}
         onAdd={handleAddCard}

@@ -52,7 +52,8 @@ export default function Users() {
 
   return (
     <>
-      <div className="flex justify-between">
+     <div className="pl-[50px]">
+         <div className="flex  justify-between">
         <div className="text-[20px] text-black">Нийт ажилтан</div>
       </div>
 
@@ -105,6 +106,7 @@ export default function Users() {
 ))}
 
       </div>
+     </div>
     </>
   );
 }

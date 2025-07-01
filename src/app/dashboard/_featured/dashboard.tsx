@@ -4,7 +4,7 @@ import MiniEventCard from '../_components/mini-event-card';
 
 const Dashboard = () => {
   return (
-    <div className=" flex flex-col gap-20">
+    <div className=" pl-[100px] flex flex-col gap-20">
       <div className=" flex flex-col gap-2">
         <div className=" font-extrabold text-xl">Өнөөдөр</div>
         <div className=" flex flex-col gap-4">

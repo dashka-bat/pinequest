@@ -32,7 +32,7 @@ const DashboardSidebar = () => {
   const isUserTab = currentTab === 'user';
 
   return (
-    <div className="w-[100%] max-w-xs bg-white p-12 h-screen">
+    <div className="fixed top-0 left-0 w-[100%] max-w-xs bg-white p-8 h-screen shadow z-40 pt-[120px]">
       <div className="flex flex-col justify-between h-full">
         <nav className="flex flex-col gap-12 text-sm text-gray-700">
          
