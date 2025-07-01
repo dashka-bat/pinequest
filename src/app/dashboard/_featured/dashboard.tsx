@@ -11,16 +11,14 @@ const Dashboard = () => {
           <section>
             <BirthdayCard />
           </section>
-          <section>
-            <BirthdayCard2 />
-          </section>
+        
         </div>
       </div>
       <div className=" flex flex-col gap-2">
         <div className=" font-extrabold text-xl">Удахгүй болох үйл явдлууд</div>
         <div className=" flex flex-col gap-4">
-          <section >
-            <BirthdayCard />
+            <section>
+            <BirthdayCard2 />
           </section>
           <section className=" flex justify-between gap-7">
             <MiniEventCard
