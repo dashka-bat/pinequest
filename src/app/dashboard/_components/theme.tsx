@@ -23,7 +23,7 @@ type Props = {
   stickers?: StickerType[];
 };
 
-export const Card = forwardRef<HTMLDivElement, Props>(
+export const Theme = forwardRef<HTMLDivElement, Props>(
   
   ({ id, text, x, y, selected, onClick,  onUpdateText, stickers = [] }, ref) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -48,16 +48,25 @@ export const Card = forwardRef<HTMLDivElement, Props>(
           onClick(id);
         }}
         onDoubleClick={handleDoubleClick}
-        style={{
-          position: 'absolute',
-          width: 500,
-          height: 500,
-          left: x,
-          top: y,
-          border: selected ? '2px solid #1692EA' : '1px solid #ccc',
-        }}
-        className="relative rounded bg-white shadow p-2"
+       style={{
+  position: 'absolute',
+  width: 500,
+  height: 500,
+  left: x,
+  top: y,
+  border: selected ? '2px solid #1692EA' : '1px solid #ccc',
+        
+}}
+
+        className="relative  rounded bg-[#EEF7FD] shadow p-2"
+        
       >
+        <div className="flex justify-center items-center"><div  style={{
+    backgroundImage: 'url("lady.png")',
+    backgroundSize: 'cover',         // зураг div-д багтахгүй бол зүсээд ч хамаагүй багтаана
+    backgroundPosition: 'top',    // төвд байрлуулна
+    backgroundRepeat: 'no-repeat',   // дахин давтахгүй
+  }} className="w-[400px] h-[350px] bg-amber-400"></div></div>
         {isEditing ? (
           <textarea
             className="w-full h-full outline-none resize-none text-sm"

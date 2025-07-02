@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 cron.schedule('0 9 * * *', async () => {
   console.log('⏰ CRON эхэллээ...');
   try {
-    const res = await fetch('http://localhost:3000/api/reminder');
+    const res = await fetch('https://pinequest-n2o2.vercel.app/api/reminder');
     const data = await res.json();
     console.log('✅ API хариу:', data);
   } catch (err) {

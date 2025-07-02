@@ -5,6 +5,8 @@ import axios from 'axios';
 // import Link from 'next/link';
 // import { Button } from '@/components/ui/button';
 import { User } from '../../../mongodb/models/user';
+import RewardGoalCard from '../dashboard/_components/RewardGoalCard';
+
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -24,7 +26,14 @@ const CurrentUser = () => {
   return (
     <div className="flex gap-2">
       {user ? (
-        <p className="text-sm font-medium">{user.email}</p>
+        // <p className="text-sm font-medium">{user.email}</p>
+        <RewardGoalCard
+          goal={30}
+          current={17}
+          rewardImage="/latte.png"
+          rewardName="CaffeLatte"
+          date={new Date().toISOString()}
+        />
       ) : (
         <p className="text-sm text-gray-500">Түр хүлээнэ үү...</p>
       )}

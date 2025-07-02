@@ -56,6 +56,19 @@ const SignInPage = () => {
     return () => clearTimeout(timeout);
   }, [response]);
 
+  // Demo товч дарахад автомат бөглөлт ба логин хийх
+  const handleDemoLogin = () => {
+    const demoCredentials = {
+      email: 'dushkab02@gmail.com',
+      password: 'dashka0318',
+    };
+    form.setValue('email', demoCredentials.email);
+    form.setValue('password', demoCredentials.password);
+
+    // Шууд логин үйлдэл хийх
+    onSubmit(demoCredentials);
+  };
+
   return (
     <div className="w-[340px] flex flex-col items-start justify-center space-y-3">
       {response && <CustomSnackbar response={response} />}
@@ -107,6 +120,15 @@ const SignInPage = () => {
           >
             {form.formState.isSubmitting ? 'Түр хүлээнэ үү!' : 'Нэвтрэх'}
           </Button>
+
+          <button
+            type="button"
+            onClick={handleDemoLogin}
+            disabled={form.formState.isSubmitting}
+            className="w-full mt-3 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 rounded"
+          >
+            Demo
+          </button>
         </form>
       </Form>
     </div>

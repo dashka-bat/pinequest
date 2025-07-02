@@ -1,17 +1,15 @@
+/* eslint-disable */
+
 'use client';
 
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import {
-  Home,
-  StickyNote,
-  LogOut,
-  PartyPopper,
-  Pencil,
-  UsersRound,
-  UserRound,
-  ChevronDown,
-} from 'lucide-react';
+
+
+import { Home, StickyNote, LogOut, PartyPopper,Pencil, UsersRound, UserRound, ChevronDown,  BookUser, } from 'lucide-react';
+import { logout } from './logout';
+
+
 import clsx from 'clsx';
 import { jwtDecode } from 'jwt-decode';
 
@@ -20,7 +18,9 @@ type MyTokenPayload = {
 }
 
 const menu = [
+
   { label: 'Миний булан', href: '/dashboard?tab=profile', tab: 'profile', icon: UserRound },
+
   { label: 'Нүүр', href: '/dashboard', tab: null, icon: Home },
 
   { label: 'Талархал бичих', href: '/dashboard?tab=new-card', tab: 'new-card', icon: Pencil },
@@ -32,6 +32,7 @@ const menu = [
     icon: StickyNote,
   },
   { label: 'Бүх ажилчин', href: '/dashboard?tab=user', tab: 'user', icon: UsersRound },
+  {label: 'Миний талархал',href: '/dashboard?tab=posts',tab: 'posts' ,icon:BookUser},
 ];
 
 const DashboardSidebar = () => {
@@ -39,9 +40,7 @@ const DashboardSidebar = () => {
   const searchParams = useSearchParams();
   const currentTab = searchParams.get('tab');
 
-  const logout = () => {
-    console.log('Logout clicked');
-  };
+
 
   const handleClick = () => {
     const token = localStorage.getItem('access_token');
@@ -57,7 +56,7 @@ const DashboardSidebar = () => {
   return (
     <div className="fixed top-0 left-0 w-[100%] max-w-xs bg-white p-8 h-screen shadow z-40 pt-[120px]">
       <div className="flex flex-col justify-between h-full">
-        <nav className="flex flex-col gap-12 text-sm text-gray-700">
+        <nav className="flex flex-col gap-6 text-sm text-gray-700">
           {menu.map(({ label, href, tab, icon: Icon }) => {
             const isActive =
               (pathname === '/dashboard' && !tab && !currentTab) || currentTab === tab;
@@ -87,8 +86,8 @@ const DashboardSidebar = () => {
                 key={href}
                 href={href}
                 className={clsx(
-                  'flex items-center gap-3 transition-all',
-                  isActive ? 'text-[#FF5252] font-semibold' : 'hover:text-indigo-500'
+                  'flex items-center gap-1 transition-all px-4 py-4 rounded-lg',
+                  isActive ? 'text-[#FF5252] bg-[#FFEBEB] font-semibold' : 'hover:bg-gray-100',
                 )}
               >
                 <Icon size={20} className={clsx(isActive ? 'text-[#FF5252]' : 'text-gray-500')} />
@@ -102,7 +101,6 @@ const DashboardSidebar = () => {
         
           <button
            onClick={logout}
-
             className="flex items-center gap-3 text-red-500 hover:text-red-600 transition-all"
           >
             <LogOut size={20} />

@@ -1,3 +1,4 @@
+
 // app/profile/page.tsx
 
 'use client';
@@ -146,3 +147,4 @@ export default function HomePage() {
     </div>
   );
 }
+
