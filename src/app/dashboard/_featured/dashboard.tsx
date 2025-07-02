@@ -5,6 +5,7 @@ import BirthdayCard from '../_components/birthday-card';
 import BirthdayCard2 from '../_components/birthday-card2';
 import MiniEventCard from '../_components/mini-event-card';
 import MiniEventCard2 from '../_components/mini-event-card2';
+import Link from 'next/link';
 
 type BirthdayData = {
   name: string;
@@ -92,6 +93,7 @@ const Dashboard = () => {
         <div className="font-extrabold text-xl">Өнөөдөр</div>
 
         <div className="flex flex-col gap-4">
+
           <section>
             {birthday ? (
               <BirthdayCard birthday={birthday} />
@@ -99,6 +101,7 @@ const Dashboard = () => {
               <p className="text-sm text-gray-500">Төрсөн өдрийн мэдээлэл ачааллаж байна...</p>
             )}
           </section>
+
 
           <div className="font-extrabold text-xl mt-10">Удахгүй болох үйл явдлууд</div>
         </div>
