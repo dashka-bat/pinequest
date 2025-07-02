@@ -34,7 +34,7 @@ const DashboardSidebar = () => {
   const currentTab = searchParams.get('tab');
   // const isUserTab = currentTab === 'user';
 
- 
+
 
   return (
     <div className="fixed top-0 left-0 w-[100%] max-w-xs bg-white p-8 h-screen shadow z-40 pt-[120px]">
@@ -70,7 +70,7 @@ const DashboardSidebar = () => {
                 href={href}
                 className={clsx(
                   'flex items-center gap-1 transition-all px-4 py-4 rounded-lg',
-                  isActive ? 'text-[#FF5252] bg-[#FFEBEB] font-semibold' : 'hover:text-indigo-500'
+                  isActive ? 'text-[#FF5252] bg-[#FFEBEB] font-semibold' : 'hover:bg-gray-100',
                 )}
               >
                 <Icon size={20} className={clsx(isActive ? 'text-[#FF5252]' : 'text-gray-500')} />
