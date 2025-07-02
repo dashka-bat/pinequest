@@ -12,6 +12,7 @@ import CustomSnackbar from '@/lib/Custom_Snackbar';
 import { SignInFormSchema, SignInFormSchemaType } from './utils/signin-schema';
 import { useRouter } from 'next/navigation';
 
+
 const SignInPage = () => {
   const [response, setResponse] = useState<ResponseType>();
   const router = useRouter();
@@ -23,17 +24,31 @@ const SignInPage = () => {
     },
   });
 
+
+
   const onSubmit = async (values: SignInFormSchemaType) => {
     const trimmed = { ...values, email: values.email.trim() };
     try {
       const res = await axios.post('/api/auth/login', trimmed);
       setResponse(res.data);
-      if (res.data.success) router.push('/dashboard');
+  
+      if (res.data.success) {
+        const token = res.data.data?.accessToken; 
+        if (token) {
+          localStorage.setItem('access_token', token);
+          console.log('Saved token to localStorage:', token);
+        } else {
+          console.warn('No token found in response data!');
+        }
+  
+        router.push('/dashboard');
+      }
     } catch (err: any) {
       const message = err.response?.data?.message || 'Нэвтрэх амжилтгүй боллоо';
       setResponse({ success: false, code: 'COULD_NOT_CONNECT_SERVER', message, data: null });
     }
   };
+  
 
   useEffect(() => {
     if (!response) return;

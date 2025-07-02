@@ -11,9 +11,16 @@ import { logout } from './logout';
 
 
 import clsx from 'clsx';
+import { jwtDecode } from 'jwt-decode';
+
+type MyTokenPayload = {
+  sub: string;   
+}
 
 const menu = [
-  { label: 'Миний булан', href: '/dashboard?tab=profile', tab:'profile', icon: UserRound },
+
+  { label: 'Миний булан', href: '/dashboard?tab=profile', tab: 'profile', icon: UserRound },
+
   { label: 'Нүүр', href: '/dashboard', tab: null, icon: Home },
 
   { label: 'Талархал бичих', href: '/dashboard?tab=new-card', tab: 'new-card', icon: Pencil },
@@ -32,9 +39,19 @@ const DashboardSidebar = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentTab = searchParams.get('tab');
-  // const isUserTab = currentTab === 'user';
 
 
+
+  const handleClick = () => {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      const decoded = jwtDecode<MyTokenPayload>(token);
+      console.log('My user ID:', decoded.sub);
+    } else {
+      console.log('No token found');
+    }
+    console.log(localStorage);
+  };
 
   return (
     <div className="fixed top-0 left-0 w-[100%] max-w-xs bg-white p-8 h-screen shadow z-40 pt-[120px]">
@@ -46,7 +63,7 @@ const DashboardSidebar = () => {
             if (tab === 'profile') {
               return (
                 <Link href={'/dashboard?tab=profile'} key={12}>
-                  <div className="rounded-[16px] border-[1px] border-solid border-[#E6E7EC] w-[226px] h-[72px] flex justify-between items-center">
+                  <div className="rounded-[16px] border-[1px] border-solid border-[#E6E7EC] w-[226px] h-[72px] flex justify-between items-center" onClick={handleClick}>
                     <div className="flex justify-center items-center">
                       <div className="flex gap-[16px] ml-[16px]">
                         <img className="w-[40px] h-[40px] rounded-full" src={'/half.png'}></img>
