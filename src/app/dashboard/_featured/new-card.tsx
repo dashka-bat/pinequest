@@ -7,8 +7,15 @@ import { StaticEmoji } from '../_components/staticEmoji';
 import { Sidebar } from '../_components/side-bar';
 import { ChevronRight } from 'lucide-react';
 import { StickerType } from '../_components/card';
+import { Theme } from '../_components/theme';
 
 type CardType = {
+  id: UniqueIdentifier;
+  text: string;
+  x: number;
+  y: number;
+};
+type ThemeType = {
   id: UniqueIdentifier;
   text: string;
   x: number;
@@ -39,6 +46,7 @@ export default function Home() {
   const [emojiItems, setEmojiItems] = useState<EmojiType[]>([]);
   const [imageItems, setImageItems] = useState<ImageItemType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [theme,setTheme]=useState<ThemeType[]>([])
 
   const [selectedCardId, setSelectedCardId] = useState<UniqueIdentifier | null>(null);
   const [selectedEmojiId, setSelectedEmojiId] = useState<UniqueIdentifier | null>(null);
@@ -177,6 +185,24 @@ export default function Home() {
       centerY = rect.height / 2 - 300;
     }
     setCards((prev) => [
+      ...prev,
+      {
+        id,
+        text: '',
+        x: centerX,
+        y: centerY,
+      },
+    ]);
+  };
+  const handleAddTheme = (id: string) => {
+    let centerX = 300;
+    let centerY = 300;
+    if (canvasRef.current) {
+      const rect = canvasRef.current.getBoundingClientRect();
+      centerX = rect.width / 2 - 260;
+      centerY = rect.height / 2 - 300;
+    }
+    setTheme((prev) => [
       ...prev,
       {
         id,
@@ -350,6 +376,7 @@ export default function Home() {
       <Sidebar
         emojis={emojis}
         onAdd={handleAddCard}
+        onAddTheme={handleAddTheme}
         onEmojiDragStart={() => {}}
         onImageUpload={handleImageUpload}
         onStickerSelect={handleStickerClick}
@@ -384,9 +411,32 @@ export default function Home() {
     img.y <= card.y + 500
 )}
 
+
+/>
+
+          ))}   {theme.map((card) => (
+           <Theme
+  key={card.id}
+  {...card}
+  selected={selectedCardId === card.id}
+  onClick={setSelectedCardId}
+  // onDelete={handleDelete}
+  onUpdateText={handleUpdateCardText}
+ stickers={imageItems.filter(
+  (img): img is StickerType =>
+    img.type === "sticker" &&
+    img.x >= card.x &&
+    img.x <= card.x + 500 &&
+    img.y >= card.y &&
+    img.y <= card.y + 500
+)}
+
+
 />
 
           ))}
+          
+          
 
           {emojiItems.map((item) => (
             <StaticEmoji

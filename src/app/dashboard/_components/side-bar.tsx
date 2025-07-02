@@ -3,6 +3,7 @@ import { CloudUpload, LayoutTemplate, Sticker } from "lucide-react";
 
 export const Sidebar = ({
   onAdd,
+  onAddTheme,
    onImageUpload,
    onStickerSelect,
 }: {
@@ -11,6 +12,7 @@ export const Sidebar = ({
   onEmojiDragStart: (emoji: string) => void;
   onImageUpload: (url: string) => void;
   onStickerSelect: (url: string) => void; 
+  onAddTheme :(id:string) => void
 }) => {
   const [activeTab, setActiveTab] = useState<"template" | "upload" | "sticker">("template");
   const [uploadSubTab, setUploadSubTab] = useState<"image" | "video">("image");
@@ -136,12 +138,28 @@ const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
           <>
             <h2 className="text-[14px] font-bold mb-[20px] text-[#FF5252]">Шинэ цаас</h2>
             <div className="flex justify-center items-center">
-              <div
+             <div>
+               <div
                 onClick={() => onAdd(`card-${Date.now()}`)}
                 className="cursor-pointer rounded select-none w-[176px] h-[280px] shadow border 
                            bg-white transition-all duration-300 ease-in-out 
                            hover:bg-gray-100 hover:shadow-lg hover:scale-[1.02] transform"
               />
+               <div
+                onClick={() => onAddTheme(`card-${Date.now()}`)}
+                className="cursor-pointer rounded select-none w-[176px] h-[280px] shadow border 
+                           bg-[#EEF7FD] transition-all duration-300 ease-in-out 
+                           hover:bg-gray-100 hover:shadow-lg hover:scale-[1.02] transform"
+                           style={{
+  position: 'absolute',
+  width: 176,
+  height: 280,
+           
+}}
+
+              />
+              <img></img>
+             </div>
             </div>
           </>
         )}
