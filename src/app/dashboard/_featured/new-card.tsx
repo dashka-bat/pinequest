@@ -6,9 +6,9 @@ import { Card } from '../_components/card';
 import { StaticEmoji } from '../_components/staticEmoji';
 import { Sidebar } from '../_components/side-bar';
 import { ChevronRight } from 'lucide-react';
-import { StickerType } from '../_components/card';
+// import { StickerType } from '../_components/card';
 import { Theme } from '../_components/theme';
-import { _uuidv4 } from 'zod/v4/core';
+// import { _uuidv4 } from 'zod/v4/core';
 
 type CardType = {
   id: UniqueIdentifier;
