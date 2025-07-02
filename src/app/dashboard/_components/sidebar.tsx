@@ -35,10 +35,7 @@ const DashboardSidebar = () => {
   // const isUserTab = currentTab === 'user';
 
   // Placeholder logout handler
-  const logout = () => {
-    // TODO: Implement logout logic here
-    console.log('Logout clicked');
-  };
+  
 
   return (
     <div className="fixed top-0 left-0 w-[100%] max-w-xs bg-white p-8 h-screen shadow z-40 pt-[120px]">
