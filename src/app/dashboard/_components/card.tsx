@@ -18,13 +18,14 @@ type Props = {
   y: number;
   selected: boolean;
   onClick: (id: UniqueIdentifier) => void;
-  onDelete: (id: UniqueIdentifier) => void;
+  // onDelete: (id: UniqueIdentifier) => void;
   onUpdateText?: (id: UniqueIdentifier, newText: string) => void;
   stickers?: StickerType[];
 };
 
 export const Card = forwardRef<HTMLDivElement, Props>(
-  ({ id, text, x, y, selected, onClick, onDelete, onUpdateText, stickers = [] }, ref) => {
+  
+  ({ id, text, x, y, selected, onClick,  onUpdateText, stickers = [] }, ref) => {
     const [isEditing, setIsEditing] = useState(false);
     const [inputText, setInputText] = useState(text);
 

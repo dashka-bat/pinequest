@@ -3,22 +3,20 @@ import { userModel } from '../../../../../mongodb/models/user';
 import { NextResponse } from 'next/server';
 import { Types } from 'mongoose';
 
-export async function GET(_: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request) {
   try {
     await connectToDatabase();
+    const url = new URL(request.url);
+    const id = url.pathname.split('/').pop(); 
 
-    const { id } = params;
-
-    if (!Types.ObjectId.isValid(id)) {
+    if (!id || !Types.ObjectId.isValid(id)) {
       return NextResponse.json({ message: 'Invalid user ID' }, { status: 400 });
     }
-
     const user = await userModel.findById(id).select('name email receivedPosts');
 
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
-
     return NextResponse.json({
       name: user.name,
       email: user.email,

@@ -371,7 +371,7 @@ export default function Home() {
   {...card}
   selected={selectedCardId === card.id}
   onClick={setSelectedCardId}
-  onDelete={handleDelete}
+  // onDelete={handleDelete}
   onUpdateText={handleUpdateCardText}
  stickers={imageItems.filter(
   (img): img is StickerType =>

@@ -16,7 +16,7 @@ export default function Posts() {
 
   return (
    <div className="grid grid-cols-2 gap-6 p-6 ml-[250px]">
-  {receivedPosts.map((post, index) =>
+  {receivedPosts.map((post, ) =>
     post.cards?.map((card: any) => {
       const cardStickers = post.imageItems?.filter(
         (img: any) =>
