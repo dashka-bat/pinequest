@@ -6,6 +6,7 @@ import { Card } from '../_components/card';
 import { StaticEmoji } from '../_components/staticEmoji';
 import { Sidebar } from '../_components/side-bar';
 import { ChevronRight } from 'lucide-react';
+import { StickerType } from '../_components/card';
 
 type CardType = {
   id: UniqueIdentifier;
@@ -29,7 +30,9 @@ type ImageItemType = {
   y: number;
   scale: number;
   type: 'image' | 'sticker';
+  cardId?: UniqueIdentifier;
 };
+
 
 export default function Home() {
   const [cards, setCards] = useState<CardType[]>([]);
@@ -37,49 +40,48 @@ export default function Home() {
   const [imageItems, setImageItems] = useState<ImageItemType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-
   const [selectedCardId, setSelectedCardId] = useState<UniqueIdentifier | null>(null);
   const [selectedEmojiId, setSelectedEmojiId] = useState<UniqueIdentifier | null>(null);
   const [selectedImageId, setSelectedImageId] = useState<UniqueIdentifier | null>(null);
   const [users, setUsers] = useState<{ _id: string; name: string ;email:string }[]>([]);
-const [selectedRecipient, setSelectedRecipient] = useState<string>('');
+  const [selectedRecipient, setSelectedRecipient] = useState<string>('');
 
-useEffect(() => {
-  const fetchUsers = async () => {
-    try {
-      const res = await fetch('/api/company/all-users');
-      const data = await res.json();
-      setUsers(data);
-    } catch (err) {
-      console.error('Хэрэглэгчид татахад алдаа:', err);
-    }
-  };
-  fetchUsers();
-}, []);
-const popupRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await fetch('/api/company/all-users');
+        const data = await res.json();
+        setUsers(data);
+      } catch (err) {
+        console.error('Хэрэглэгчид татахад алдаа:', err);
+      }
+    };
+    fetchUsers();
+  }, []);
 
-useEffect(() => {
-  const handleClickOutside = (e: MouseEvent) => {
-    if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
-      setIsModalOpen(false);
-      setSelectedRecipient('')
-    }
-  };
-  document.addEventListener('mousedown', handleClickOutside);
-  return () => {
-    document.removeEventListener('mousedown', handleClickOutside);
-  };
-}, []);
+  const popupRef = useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
+        setIsModalOpen(false);
+        setSelectedRecipient('');
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const emojis = ['🎉', '💖', '🎂', '👏', '🌟', '😊', '🎁'];
   const canvasRef = useRef<HTMLDivElement | null>(null);
   const dragInfo = useRef({
     draggingId: null as UniqueIdentifier | null,
-    startX: 0,
-    startY: 0,
-    originX: 0,
-    originY: 0,
+    startX: 300,
+    startY: 300,
+    originX: 300,
+    originY: 300,
   });
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>, id: UniqueIdentifier) => {
@@ -133,6 +135,14 @@ useEffect(() => {
     setEmojiItems((prev) => prev.filter((emoji) => emoji.id !== id));
     setImageItems((prev) => prev.filter((img) => img.id !== id));
   };
+  const handleUpdateCardText = (id: UniqueIdentifier, newText: string) => {
+  setCards((prev) =>
+    prev.map((card) =>
+      card.id === id ? { ...card, text: newText } : card
+    )
+  );
+};
+
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -170,7 +180,7 @@ useEffect(() => {
       ...prev,
       {
         id,
-        text: 'Төрсөн өдрийн мэнд хүргэе Хулан 💐 Чи үнэхээр хэрэгтэй шүү',
+        text: '',
         x: centerX,
         y: centerY,
       },
@@ -199,13 +209,13 @@ useEffect(() => {
   };
 
   const handleStickerClick = (url: string) => {
-    let centerX = 300;
-    let centerY = 300;
-    if (canvasRef.current) {
-      const rect = canvasRef.current.getBoundingClientRect();
-      centerX = rect.width / 2 - 60;
-      centerY = rect.height / 2 - 60;
-    }
+    if (!selectedCardId) return;
+    const card = cards.find((c) => c.id === selectedCardId);
+    if (!card) return;
+
+    const centerX = card.x + 250 - 30;
+    const centerY = card.y + 250 - 30;
+
     setImageItems((prev) => [
       ...prev,
       {
@@ -215,6 +225,7 @@ useEffect(() => {
         y: centerY,
         scale: 1,
         type: 'sticker',
+        cardId: card.id,
       },
     ]);
   };
@@ -305,7 +316,7 @@ useEffect(() => {
     setIsModalOpen(true)
   const payload = {
     cards,
-    emojiItems : imageItems.filter((item) => item.type === 'sticker'),
+    emojiItems,
     imageItems,
   };
 
@@ -333,7 +344,9 @@ useEffect(() => {
 
 
   return (
+
     <div className="flex pl-[20px] h-screen relative ml-20 border-2 rounded-lg ">
+
       <Sidebar
         emojis={emojis}
         onAdd={handleAddCard}
@@ -351,17 +364,28 @@ useEffect(() => {
             setSelectedEmojiId(null);
             setSelectedImageId(null);
           }}
-          className="relative w-full h-[80vh] bg-center bg-[length:250%] bg-no-repeat border rounded p-4 overflow-auto"
+          className=" relative w-full h-[80vh] bg-center bg-[length:250%] bg-no-repeat border rounded p-4 overflow-auto"
           style={{ backgroundImage: "url('/area.png')" }}
         >
           {cards.map((card) => (
-            <Card
-              key={card.id}
-              {...card}
-              selected={selectedCardId === card.id}
-              onClick={setSelectedCardId}
-              onDelete={handleDelete}
-            />
+           <Card
+  key={card.id}
+  {...card}
+  selected={selectedCardId === card.id}
+  onClick={setSelectedCardId}
+  // onDelete={handleDelete}
+  onUpdateText={handleUpdateCardText}
+ stickers={imageItems.filter(
+  (img): img is StickerType =>
+    img.type === "sticker" &&
+    img.x >= card.x &&
+    img.x <= card.x + 500 &&
+    img.y >= card.y &&
+    img.y <= card.y + 500
+)}
+
+/>
+
           ))}
 
           {emojiItems.map((item) => (
@@ -388,7 +412,7 @@ useEffect(() => {
     />
 
     <div className="overflow-y-auto max-h-[340px]">
-      {users.slice(0, 5).map((user) => (
+      {users.slice(2,7).map((user) => (
         <div
           key={user._id}
           onClick={() => setSelectedRecipient(user._id)}

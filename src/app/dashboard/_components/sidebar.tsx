@@ -1,21 +1,19 @@
+/* eslint-disable */
+
 'use client';
 
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import {
-  Home,
-  StickyNote,
-  LogOut,
-  PartyPopper,
-  Pencil,
-  UsersRound,
-  UserRound,
-  ChevronDown,
-} from 'lucide-react';
+
+
+import { Home, StickyNote, LogOut, PartyPopper,Pencil, UsersRound, UserRound, ChevronDown,  BookUser, } from 'lucide-react';
+import { logout } from './logout';
+
+
 import clsx from 'clsx';
 
 const menu = [
-  { label: 'Миний булан', href: '/dashboard?tab=profle', tab: 'profile', icon: UserRound },
+  { label: 'Миний булан', href: '/dashboard?tab=profile', tab:'profile', icon: UserRound },
   { label: 'Нүүр', href: '/dashboard', tab: null, icon: Home },
 
   { label: 'Талархал бичих', href: '/dashboard?tab=new-card', tab: 'new-card', icon: Pencil },
@@ -27,6 +25,7 @@ const menu = [
     icon: StickyNote,
   },
   { label: 'Бүх ажилчин', href: '/dashboard?tab=user', tab: 'user', icon: UsersRound },
+  {label: 'Миний талархал',href: '/dashboard?tab=posts',tab: 'posts' ,icon:BookUser},
 ];
 
 const DashboardSidebar = () => {
@@ -89,7 +88,6 @@ const DashboardSidebar = () => {
         
           <button
            onClick={logout}
-
             className="flex items-center gap-3 text-red-500 hover:text-red-600 transition-all"
           >
             <LogOut size={20} />

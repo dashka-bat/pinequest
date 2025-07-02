@@ -1,39 +1,89 @@
 import { UniqueIdentifier } from "@dnd-kit/core";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const Card = ({ id, text, x, y, selected, onClick, onDelete }: {
+import { forwardRef, useState } from "react";
+
+ export type StickerType = {
+  id: UniqueIdentifier;
+  url: string;
+  x: number;
+  y: number;
+  scale: number;
+  type: 'sticker'; // заавал 'sticker'
+};
+
+
+type Props = {
   id: UniqueIdentifier;
   text: string;
   x: number;
   y: number;
   selected: boolean;
   onClick: (id: UniqueIdentifier) => void;
-  onDelete: (id: UniqueIdentifier) => void;
-}) => {
-  return (
-    <div
-      onClick={(e) => {
-        e.stopPropagation();
-        onClick(id);
-      }}
-      style={{
-        position: 'absolute',
-        width: 500,
-        height:500,
-        left: x,
-        top: y,
-        userSelect: 'none',
-        cursor: 'pointer',
-        border: selected ? '2px solid #1692EA' : '1px solid #ccc',
-        borderRadius: 8,
-        background: 'white',
-        padding: 12,
-        boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
-        
-      }}
-       className="cursor-pointer hover:bg-gray-100 p-2 rounded select-none w-[176px] h-[280px]  shadow   border"
-    >
-   
-    
-    </div>
-  );
+  // onDelete: (id: UniqueIdentifier) => void;
+  onUpdateText?: (id: UniqueIdentifier, newText: string) => void;
+  stickers?: StickerType[];
 };
+
+export const Card = forwardRef<HTMLDivElement, Props>(
+  
+  ({ id, text, x, y, selected, onClick,  onUpdateText, stickers = [] }, ref) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [inputText, setInputText] = useState(text);
+
+    const handleDoubleClick = () => {
+      setIsEditing(true);
+    };
+
+    const handleBlur = () => {
+      setIsEditing(false);
+      if (onUpdateText) {
+        onUpdateText(id, inputText);
+      }
+    };
+
+    return (
+      <div
+        ref={ref}
+        onClick={(e) => {
+          e.stopPropagation();
+          onClick(id);
+        }}
+        onDoubleClick={handleDoubleClick}
+        style={{
+          position: 'absolute',
+          width: 500,
+          height: 500,
+          left: x,
+          top: y,
+          border: selected ? '2px solid #1692EA' : '1px solid #ccc',
+        }}
+        className="relative rounded bg-white shadow p-2"
+      >
+        {isEditing ? (
+          <textarea
+            className="w-full h-full outline-none resize-none text-sm"
+            autoFocus
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            onBlur={handleBlur}
+          />
+        ) : (
+          <p className="text-sm whitespace-pre-wrap break-words">{text}</p>
+        )}
+
+        {stickers.map((sticker) => (
+          <img
+            key={sticker.id.toString()}
+            src={sticker.url}
+            alt="sticker"
+            className="absolute pointer-events-none"
+            style={{
+              top: sticker.y,
+              left: sticker.x,
+              width: `${sticker.scale * 60}px`,
+            }}
+          />
+        ))}
+      </div>
+    );
+  }
+);
