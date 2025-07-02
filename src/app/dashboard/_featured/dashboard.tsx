@@ -94,13 +94,13 @@ const Dashboard = () => {
 
         <div className="flex flex-col gap-4">
 
-          <section>
+          <Link href={"/dashboard?tab=posts"}><section>
             {birthday ? (
               <BirthdayCard birthday={birthday} />
             ) : (
               <p className="text-sm text-gray-500">Төрсөн өдрийн мэдээлэл ачааллаж байна...</p>
             )}
-          </section>
+          </section></Link>
 
 
           <div className="font-extrabold text-xl mt-10">Удахгүй болох үйл явдлууд</div>

@@ -1,4 +1,4 @@
-export default function ThankYouCard({ avatar, name, time, message }) {
+export default function ThankYouCard({ avatar, name, time, message }:any) {
   return (
     <div className="bg-white shadow rounded-lg p-4">
       <div className="flex items-center mb-2">

@@ -30,9 +30,7 @@ const Main = async ({ searchParams }: MainProps) => {
     <Users />
 
   ) : tab==="profile" ? (
-    <Profile/> ):
-   (
-
+    <Profile/> 
   ) : tab==="posts" ? (
     <Posts/>
   ) :
