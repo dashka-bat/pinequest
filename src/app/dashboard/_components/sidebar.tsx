@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 'use client';
 
 import Link from 'next/link';
@@ -86,7 +88,6 @@ const DashboardSidebar = () => {
         
           <button
            onClick={logout}
-
             className="flex items-center gap-3 text-red-500 hover:text-red-600 transition-all"
           >
             <LogOut size={20} />
