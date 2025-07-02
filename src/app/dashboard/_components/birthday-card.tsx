@@ -23,13 +23,16 @@ const BirthdayCard = () => {
   if (!birthday) return <div>Түр хүлээнэ үү...</div>;
 
   return (
-    <div className="relative rounded-3xl p-10 w-full overflow-hidden">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: 'url(/happy.png)' }}
-      ></div>
-
-      <div className="absolute inset-0 bg-gradient-to-r from-[#FF5E5E] to-[#FFFFFF] opacity-80"></div>
+     <div className="relative rounded-3xl p-10 w-full overflow-hidden">
+      <div className="absolute right-64 inset-0 z-0">
+        <img src="/happy.png" className="w-full h-full object-cover" />
+      </div>
+      <div className="absolute left-30 inset-0 z-0">
+        {' '}
+        <img src="/happy.png" className="w-full h-full object-cover" />
+      </div>
+      
+      <div className="absolute inset-0 bg-gradient-to-r from-[#FF5E5E] to-[#FF5E5E]/15"></div>
 
       <div className="relative z-10 flex justify-between items-center text-white">
         <div className="flex items-center gap-6">
@@ -43,7 +46,7 @@ const BirthdayCard = () => {
             <p className="mt-2 text-sm">{birthday.message}</p>
           </div>
         </div>
-        <div className="text-black text-2xl font-semibold">Өнөөдөр</div>
+        <div className="text-white text-3xl font-semibold">Өнөөдөр</div>
       </div>
     </div>
   );
