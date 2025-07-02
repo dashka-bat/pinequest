@@ -5,6 +5,7 @@ import BirthdayCard from '../_components/birthday-card';
 import BirthdayCard2 from '../_components/birthday-card2';
 import MiniEventCard from '../_components/mini-event-card';
 import MiniEventCard2 from '../_components/mini-event-card2';
+import Link from 'next/link';
 
 type Event = {
   name: string;
@@ -58,9 +59,9 @@ const Dashboard = () => {
       <div className="flex flex-col gap-4">
         <div className="font-extrabold text-xl">Өнөөдөр</div>
         <div className="flex flex-col gap-4">
-          <section>
+          <Link href={"/dashboard?tab=profile"}><section>
             <BirthdayCard />
-          </section>
+          </section></Link>
           <div className="font-extrabold text-xl mt-10">Удахгүй болох үйл явдлууд</div>
         </div>
 

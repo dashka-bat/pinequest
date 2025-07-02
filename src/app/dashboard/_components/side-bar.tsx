@@ -144,7 +144,7 @@ const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
                 className="cursor-pointer rounded select-none w-[176px] h-[280px] shadow border 
                            bg-white transition-all duration-300 ease-in-out 
                            hover:bg-gray-100 hover:shadow-lg hover:scale-[1.02] transform"
-              />
+              ></div>
                <div
                 onClick={() => onAddTheme(`card-${Date.now()}`)}
                 className="cursor-pointer rounded select-none w-[176px] h-[280px] shadow border 
@@ -157,8 +157,14 @@ const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
            
 }}
 
-              />
-              <img></img>
+              > <div
+  style={{ backgroundImage: 'url("lady.png")' }}
+  className="w-[156px] h-[200px] mx-[10px] my-[10px] bg-cover bg-center"
+>
+
+</div>
+</div>
+             
              </div>
             </div>
           </>

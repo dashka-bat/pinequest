@@ -55,14 +55,18 @@ export const Theme = forwardRef<HTMLDivElement, Props>(
   left: x,
   top: y,
   border: selected ? '2px solid #1692EA' : '1px solid #ccc',
-  backgroundImage: `url("/Thankly.png")`,
-  backgroundSize: 'cover',                
-  backgroundPosition: 'center',          
+        
 }}
 
-        className="relative rounded bg-white shadow p-2"
+        className="relative  rounded bg-[#EEF7FD] shadow p-2"
         
       >
+        <div className="flex justify-center items-center"><div  style={{
+    backgroundImage: 'url("lady.png")',
+    backgroundSize: 'cover',         // зураг div-д багтахгүй бол зүсээд ч хамаагүй багтаана
+    backgroundPosition: 'top',    // төвд байрлуулна
+    backgroundRepeat: 'no-repeat',   // дахин давтахгүй
+  }} className="w-[400px] h-[350px] bg-amber-400"></div></div>
         {isEditing ? (
           <textarea
             className="w-full h-full outline-none resize-none text-sm"
