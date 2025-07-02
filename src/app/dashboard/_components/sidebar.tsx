@@ -3,12 +3,12 @@
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 
+
 import { Home, StickyNote, LogOut, PartyPopper,Pencil, UsersRound, UserRound, ChevronDown,  BookUser, } from 'lucide-react';
 import { logout } from './logout';
 
+
 import clsx from 'clsx';
-
-
 
 const menu = [
   { label: 'Миний булан', href: '/dashboard?tab=profile', tab:'profile', icon: UserRound },
@@ -32,10 +32,16 @@ const DashboardSidebar = () => {
   const currentTab = searchParams.get('tab');
   // const isUserTab = currentTab === 'user';
 
+  // Placeholder logout handler
+  const logout = () => {
+    // TODO: Implement logout logic here
+    console.log('Logout clicked');
+  };
+
   return (
     <div className="fixed top-0 left-0 w-[100%] max-w-xs bg-white p-8 h-screen shadow z-40 pt-[120px]">
       <div className="flex flex-col justify-between h-full">
-        <nav className="flex flex-col gap-12 text-sm text-gray-700">
+        <nav className="flex flex-col gap-6 text-sm text-gray-700">
           {menu.map(({ label, href, tab, icon: Icon }) => {
             const isActive =
               (pathname === '/dashboard' && !tab && !currentTab) || currentTab === tab;
@@ -65,8 +71,8 @@ const DashboardSidebar = () => {
                 key={href}
                 href={href}
                 className={clsx(
-                  'flex items-center gap-3 transition-all',
-                  isActive ? 'text-[#FF5252] font-semibold' : 'hover:text-indigo-500'
+                  'flex items-center gap-1 transition-all px-4 py-4 rounded-lg',
+                  isActive ? 'text-[#FF5252] bg-[#FFEBEB] font-semibold' : 'hover:text-indigo-500'
                 )}
               >
                 <Icon size={20} className={clsx(isActive ? 'text-[#FF5252]' : 'text-gray-500')} />

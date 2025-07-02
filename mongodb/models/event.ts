@@ -7,6 +7,10 @@ const EventSchema = new Schema(
     type: { type: String, required: true },
     date: { type: Date, required: true },
     phone: { type: Number, required: true },
+    goal: { type: String, required: false },
+    imageUrl: { type: String, required: false },
+    startDate: { type: Date, required: false },
+    endDate: { type: Date, required: false },
     company: { type: Number, required: true },
     user: { type: Types.ObjectId, required: true, ref: 'User' },
   },
@@ -20,6 +24,10 @@ export type Event = {
   name: string;
   type: string;
   date: string;
+  goal?: string;
+  imageUrl?: string;
+  startDate?: string;
+  endDate?: string;
   phone: number;
   company: number;
   user: User;

@@ -344,7 +344,9 @@ export default function Home() {
 
 
   return (
-    <div className="flex pl-[150px] h-screen relative">
+
+    <div className="flex pl-[20px] h-screen relative ml-20 border-2 rounded-lg ">
+
       <Sidebar
         emojis={emojis}
         onAdd={handleAddCard}
