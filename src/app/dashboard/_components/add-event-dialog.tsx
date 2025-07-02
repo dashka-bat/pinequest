@@ -33,7 +33,7 @@ const AddEventCard = ({ setRefresh }: { setRefresh: Dispatch<SetStateAction<bool
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [response, setResponse] = useState<ResponseType>();
-  const [open, setOpen] = useState(false); // Dialog нээх/хаах төлөв
+  const [open, setOpen] = useState(false); 
 
   const form = useForm<AddEventSchemaType>({
     resolver: zodResolver(AddEventSchema),
@@ -67,7 +67,7 @@ const AddEventCard = ({ setRefresh }: { setRefresh: Dispatch<SetStateAction<bool
       setResponse(res.data);
       if (res.data.success) {
         setRefresh((prev) => !prev);
-        setOpen(false); // Dialog хаах
+        setOpen(false); 
       }
     } catch (err) {
       console.error(err);

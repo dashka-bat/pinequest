@@ -15,14 +15,14 @@ const RewardGoalCard = ({ goal, current, rewardImage, date, rewardName }: Reward
   return (
     <div className="flex items-center space-x-4 bg-white px-3 py-0.1 rounded-lg border border-solid border-gray-100">
       <div className="flex-1">
-        <p className="text-sm font-semibold">{formattedDate}</p>
+        <p className="text-xs text-gray-600">{formattedDate}</p>
         <p className="text-xs text-gray-600">
           {goal} талархал бичвэл 1 {rewardName}
         </p>
-        <p className="text-xs font-medium">
+        <p className="text-xs font-medium text-[#FF5252]">
           {current} / {goal}
         </p>
-        <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
+        <div className="w-full bg-gray-200 rounded-full h-2 mt-1 mb-1">
           <div className="h-2 bg-[#FFBABA] rounded-full" style={{ width: `${progressPercent}%` }} />
         </div>
       </div>

@@ -6,6 +6,14 @@ import BirthdayCard2 from '../_components/birthday-card2';
 import MiniEventCard from '../_components/mini-event-card';
 import MiniEventCard2 from '../_components/mini-event-card2';
 
+type BirthdayData = {
+  name: string;
+  message: string;
+  date?: string;
+  phone?: string;
+  imageUrl?: string;
+};
+
 type Event = {
   name: string;
   type: string;
@@ -17,6 +25,7 @@ type Event = {
 
 const Dashboard = () => {
   const [events, setEvents] = useState<Event[]>([]);
+  const [birthday, setBirthday] = useState<BirthdayData | null>(null);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -42,6 +51,7 @@ const Dashboard = () => {
             .slice(0, 2);
 
           setEvents(companyEvents);
+          console.log('Company Events:', companyEvents);
         } else {
           console.error('Амжилтгүй хүсэлт:', json.message);
         }
@@ -50,17 +60,46 @@ const Dashboard = () => {
       }
     };
 
+    const fetchBirthday = async () => {
+      try {
+        const res = await fetch('/api/birthday', {
+          method: 'GET',
+          credentials: 'include',
+        });
+
+        const contentType = res.headers.get('content-type');
+        if (!res.ok || !contentType?.includes('application/json')) {
+          const errorText = await res.text();
+          console.error('Birthday API JSON биш:', errorText);
+          return;
+        }
+
+        const data = await res.json();
+        setBirthday(data);
+        console.log('🎂 Birthday:', data);
+      } catch (err) {
+        console.error('Birthday fetch алдаа:', err);
+      }
+    };
+
     fetchEvents();
+    fetchBirthday();
   }, []);
 
   return (
     <div className="flex flex-col gap-10 px-40 pt-10">
       <div className="flex flex-col gap-4">
         <div className="font-extrabold text-xl">Өнөөдөр</div>
+
         <div className="flex flex-col gap-4">
           <section>
-            <BirthdayCard />
+            {birthday ? (
+              <BirthdayCard birthday={birthday} />
+            ) : (
+              <p className="text-sm text-gray-500">Төрсөн өдрийн мэдээлэл ачааллаж байна...</p>
+            )}
           </section>
+
           <div className="font-extrabold text-xl mt-10">Удахгүй болох үйл явдлууд</div>
         </div>
 
@@ -70,7 +109,7 @@ const Dashboard = () => {
           </section>
 
           <div className="flex flex-col">
-            <section className="flex justify-center items-center gap-8 rounded-lg ">
+            <section className="flex justify-center items-center gap-8 rounded-lg">
               {events.length >= 1 && (
                 <MiniEventCard
                   title={events[0].name}
