@@ -7,13 +7,22 @@ import Link from 'next/link';
 import ClickSpark from './Effect';
 import Image from 'next/image';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { motion } from 'framer-motion';
+import { animate, motion, useMotionValue, useTransform } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
+
+const cards = [
+  { id: 'A', src: '/Template1.svg' },
+  { id: 'B', src: '/Template2.svg' },
+  { id: 'C', src: '/Template3.svg' },
+  { id: 'D', src: '/Template4.svg' },
+];
+
+const CARD_WIDTH = 364;
+const CARD_SPACING = 40;
+const TOTAL_WIDTH = CARD_WIDTH + CARD_SPACING;
 
 export default function Main() {
   const card1 = useRef<HTMLDivElement>(null);
@@ -205,12 +214,37 @@ export default function Main() {
           });
         },
       });
-
-      // Other triggers...
     });
 
     return () => ctx.revert();
   }, []);
+
+  const extendedCards = [...cards, ...cards]; // for infinite loop
+
+  const x = useMotionValue(0);
+
+  useEffect(() => {
+    const pauseTime = 2; // seconds pause on each card
+    const slideTime = 0.8; // seconds sliding time
+    const totalCards = cards.length;
+
+    // keyframes for sliding: positions for each card step (including loop)
+    const keyframes = [];
+    for (let i = 0; i <= totalCards; i++) {
+      keyframes.push(-i * TOTAL_WIDTH);
+    }
+
+    const totalDuration = totalCards * (pauseTime + slideTime);
+
+    const controls = animate(x, keyframes, {
+      duration: totalDuration,
+      ease: 'easeInOut',
+      times: keyframes.map((_, i) => i / keyframes.length),
+      repeat: Infinity,
+    });
+
+    return () => controls.stop();
+  }, [x]);
 
   return (
     <div className="w-full">
@@ -222,8 +256,8 @@ export default function Main() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8 }}
           >
-            <div>
-              <Image src={`/Thankly.png`} alt="logo" width={70} height={47} />
+            <div className="p-2">
+              <Image src="/miniLogo.png" width={68} height={48} alt="logo" />
             </div>
           </motion.div>
 
@@ -244,7 +278,6 @@ export default function Main() {
           </motion.div>
         </div>
 
-        {/* Hero section */}
         <div className="w-full h-[700px] relative flex items-center justify-center">
           <div
             ref={card1}
@@ -297,73 +330,203 @@ export default function Main() {
 
         <section
           ref={sectionRef}
-          className="flex items-center justify-around gap-10 px-10 py-10  mt-[700px] mb-[300px] flex-col "
+          className="flex items-center justify-around gap-10 px-10 py-10  mt-[200px] mb-[300px] flex-col bg-[#EEF7FD] h-screen"
         >
-          <div className="w-[660px]">
+          <div className="w-[83%] ">
             <h1 className="font-semibold text-[36px] leading-[72px]">Таны хүссэн загвар</h1>
-            <p className="mt-4 text-[20px]">
+            <p className="mt-4 text-[20px] w-[580px]">
               Өөрийн хүссэн загварыг гарган талархал илгээх боломжтой, мөн GIF, видео бичлэг, зураг,
               мессеж нэмээрэй.
             </p>
           </div>
           <div className="overflow-hidden w-full flex justify-center items-center">
-            <div className="w-full max-w-[1200px] mx-auto py-20">
-              <Swiper
-                modules={[Autoplay]}
-                slidesPerView={2}
-                loop={true}
-                autoplay={{ delay: 1500, disableOnInteraction: false }}
-                speed={700}
-                onSlideChangeTransitionStart={(swiper) => {
-                  const slides = swiper.slides;
-                  const activeIndex = swiper.activeIndex;
-                  // Example: animate the previous slide out to the right
-                  gsap.to(slides[activeIndex - 1], { x: 100, opacity: 0, duration: 0.5 });
-                  // Animate next slide in from left
-                  gsap.fromTo(
-                    slides[activeIndex],
-                    { x: -100, opacity: 0 },
-                    { x: 0, opacity: 1, duration: 0.5 }
-                  );
-                }}
+            <div className="w-full">
+              <ClickSpark
+                sparkColor="#000"
+                sparkSize={12}
+                sparkRadius={50}
+                sparkCount={10}
+                duration={400}
               >
-                <SwiperSlide>
-                  <Image
-                    src="/Template1.svg"
-                    alt="Template 1"
-                    width={300}
-                    height={200}
-                    className="rounded-2xl"
-                  />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <Image
-                    src="/Template2.svg"
-                    alt="Template 2"
-                    width={300}
-                    height={200}
-                    className="rounded-2xl"
-                  />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <Image
-                    src="/Template3.svg"
-                    alt="Template 3"
-                    width={300}
-                    height={200}
-                    className="rounded-2xl"
-                  />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <Image
-                    src="/Template4.svg"
-                    alt="Template 4"
-                    width={300}
-                    height={200}
-                    className="rounded-2xl"
-                  />
-                </SwiperSlide>
-              </Swiper>
+                <section
+                  ref={sectionRef}
+                  className="flex items-center justify-around gap-10 px-10 py-10 mt-[200px] mb-[300px] flex-col bg-[#EEF7FD] h-screen"
+                >
+                  <div className="overflow-hidden w-full flex justify-center items-center">
+                    <div className="overflow-hidden w-[calc(3*364px+2*40px)] mx-auto">
+                      <motion.div
+                        className="flex"
+                        style={{
+                          x,
+                          gap: `${CARD_SPACING}px`,
+                        }}
+                      >
+                        {extendedCards.map((card, i) => {
+                          const cardCenter = i * TOTAL_WIDTH + CARD_WIDTH / 2;
+                          const viewCenter = TOTAL_WIDTH * 1.5;
+                          const distanceFromCenter = useTransform(x, (latestX) => {
+                            return Math.abs(cardCenter + latestX - viewCenter);
+                          });
+                          const scale = useTransform(
+                            distanceFromCenter,
+                            [0, TOTAL_WIDTH],
+                            [1, 0.85],
+                            { clamp: true }
+                          );
+
+                          return (
+                            <motion.div
+                              key={`${card.id}-${i}`}
+                              style={{
+                                flex: '0 0 auto',
+                                width: `${CARD_WIDTH}px`,
+                                height: '320px',
+                                scale,
+                                borderRadius: '12px',
+                                overflow: 'hidden',
+                                userSelect: 'none',
+                                backgroundColor: 'white',
+                                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                              }}
+                            >
+                              <div>
+                              {card.id === 'A' && (
+                                  <div className="flex flex-col items-center gap-2 pt-4">
+                                    <div className="text-[20px] text-[#000000] font-semibold">
+                                    Бэлэн загварууд
+                                    </div>
+                                    <div className="relative h-[280px] w-[100%] ">
+                                      <Image
+                                        src="/Template1.svg"
+                                        alt="chuluu"
+                                        width={139}
+                                        height={221}
+                                        className="w-[139px] h-[221px] absolute left-[40px] top-10"
+                                      />
+                                      <Image
+                                        src="/Template3.svg"
+                                        alt="chuluu"
+                                        width={139}
+                                        height={221}
+                                        className="w-[139px] h-[221px] absolute right-[110px] -top-[10px]"
+                                      />
+                                      <Image
+                                        src="/Template4.svg"
+                                        alt="chuluu"
+                                        width={139}
+                                        height={221}
+                                        className="w-[139px] h-[221px] absolute right-[40px] top-10"
+                                      />
+                                    </div>
+                                  </div>
+                                )}
+                                {card.id === 'B' && (
+                                  <div className="flex flex-col items-center gap-5 pt-4">
+                                    <div className="text-[20px] text-[#000000] font-semibold">
+                                      Карт
+                                    </div>
+                                    <div className="relative h-[250px] w-[100%] ">
+                                      <Image
+                                        src="/aaaa.png"
+                                        alt="chuluu"
+                                        width={194}
+                                        height={241}
+                                        className="w-[194px] h-[241px] absolute left-[80px] top-[20px]"
+                                      />
+                                       <div className="relative w-40 h-40">
+  <motion.div
+    initial={{ rotate: -8 }}
+    animate={{ rotate: [-8, -10, -8] }}
+    transition={{ repeat: Infinity, duration: 3 }}
+    className="
+      absolute bottom-4 left-4
+      w-24 h-24
+      bg-[url('/puujin.png')] bg-cover bg-no-repeat
+      rounded-xl
+      border-2 border-white
+      shadow-lg
+    "
+  />
+</div>
+                                       <Image
+                                        src="/zurh.png"
+                                        alt="chuluu"
+                                        width={80}
+                                        height={80}
+                                        className="w-[80px] h-[80px] absolute right-[25px] bottom-4"
+                                      />
+                                      <Image
+                                        src="/choice.png"
+                                        alt="chuluu"
+                                        width={163}
+                                        height={66}
+                                        className="w-[163px] h-[66px] absolute right-[80px] -top-4"
+                                      />
+                                    </div>
+                                  </div>
+                                )}
+                                {card.id === 'C' && (
+                                  <div className="flex flex-col items-center gap-5 pt-4">
+                                    <div className="text-[20px] text-[#000000] font-semibold">
+                                      Зураг болон бичлэг
+                                    </div>
+                                    <div className="relative h-[250px] w-[100%] ">
+                                      <Image
+                                        src="/chuluu.png"
+                                        alt="chuluu"
+                                        width={139}
+                                        height={221}
+                                        className="w-[139px] h-[221px] absolute left-[80px] top-4"
+                                      />
+                                      <Image
+                                        src="/Container.png"
+                                        alt="chuluu"
+                                        width={139}
+                                        height={221}
+                                        className="w-[139px] h-[221px] absolute right-[80px] top-0"
+                                      />
+                                    </div>
+                                  </div>
+                                )}
+                                {card.id === 'D' && (
+                                  <div className="flex flex-col items-center gap-5 pt-4">
+                                    <div className="text-[20px] text-[#000000] font-semibold">
+                                    Бэлэн загварууд
+                                    </div>
+                                    <div className="relative h-[250px] w-[100%] ">
+                                      <Image
+                                        src="/note.png"
+                                        alt="chuluu"
+                                        width={139}
+                                        height={120}
+                                        className="w-[139px] h-[180px] absolute left-[40px] top-6"
+                                      />
+                                      <Image
+                                        src="/noote.png"
+                                        alt="chuluu"
+                                        width={139}
+                                        height={120}
+                                        className="w-[139px] h-[180px] absolute right-[40px] top-6"
+                                      />
+                                      <Image
+                                        src="/zuragta.png"
+                                        alt="chuluu"
+                                        width={139}
+                                        height={221}
+                                        className="w-[139px] h-[221px] absolute right-[110px] top-0"
+                                      />
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </motion.div>
+                          );
+                        })}
+                      </motion.div>
+                    </div>
+                  </div>
+                </section>
+              </ClickSpark>
             </div>
           </div>
         </section>
@@ -396,11 +559,11 @@ export default function Main() {
               >
                 <div className="flex items-center gap-2">
                   <Avatar className="w-6 h-6">
-                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarImage src="/pro1.png" />
                   </Avatar>
-                  <div className="text-sm text-gray-600"> Энхтөр </div>
+                  <div className="text-sm text-gray-600">Болор-эрдэнэ</div>
                 </div>
-                Амжилт өшөө илүү хичээгээрэй
+                Чиний амжилт бидний бахархал 🙌🏻
               </motion.div>
             </motion.div>
 
@@ -426,7 +589,7 @@ export default function Main() {
                   </Avatar>
                   <div className="text-sm text-gray-600"> Дариа </div>
                 </div>
-                Өдрийг сайхан өнгөрүүлээрэй
+                Чамд баярлалаа, чи үнэхээр гайхалтай шүү🎈
               </motion.div>
               <motion.div
                 className="absolute text-[64px] -bottom-[30px] left-[20px]"
@@ -469,7 +632,7 @@ export default function Main() {
                   </Avatar>
                   <p className="text-sm text-gray-600"> Энхтөр </p>
                 </div>
-                Өдрийг сайхан өнгөрүүлээрэй
+                Өдрийг сайхан өнгөрүүлээрэй 🙋🏻‍♀️
               </motion.div>
             </motion.div>
           </div>
